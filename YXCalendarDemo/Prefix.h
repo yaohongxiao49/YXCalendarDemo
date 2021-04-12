@@ -8,6 +8,7 @@
 #ifndef Prefix_h
 #define Prefix_h
 
+#import <Masonry/Masonry.h>
 #import "YXCalendarManager.h"
 
 #endif /* Prefix_h */
