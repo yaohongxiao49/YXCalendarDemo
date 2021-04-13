@@ -34,6 +34,7 @@
     _solarCalendarLab.text = [[YXCalendarManager sharedManager] assemblySolarCalendarDayModelByDayModel:dayModel] ? :@"";
     
     [self bgViewLayerBorderByBoolBorder:dayModel.boolCurrentDay];
+    [self bgViewBgColorByBoolCurrentMonth:dayModel.boolInCurrentMonth];
 }
 
 #pragma mark - 背景视图边框变化
@@ -44,6 +45,17 @@
     }
     else {
         _bgView.layer.borderWidth = 0;
+    }
+}
+
+#pragma mark - 背景视图背景色变化
+- (void)bgViewBgColorByBoolCurrentMonth:(BOOL)boolCurrentMonth {
+    
+    if (boolCurrentMonth) {
+        _bgView.backgroundColor = [UIColor redColor];
+    }
+    else {
+        _bgView.backgroundColor = [UIColor colorWithRed:220 /255.0 green:220 /255.0 blue:220 /255.0 alpha:0.2];
     }
 }
 

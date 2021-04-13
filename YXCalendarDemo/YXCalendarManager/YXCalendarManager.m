@@ -198,11 +198,18 @@
         solarCalendarDay = @"初一";
     }
     
-    NSDictionary *lunarCalendarDaysDic = @{@"01-01":@"元旦", @"02-14":@"情人节", @"03-08":@"妇女节", @"03-12":@"植树节", @"04-01":@"愚人节", @"05-01":@"劳动节", @"05-04":@"青年节", @"06-01":@"儿童节", @"07-01":@"建党节", @"08-01":@"建军节", @"09-10":@"教师节", @"10-01":@"国庆节", @"11-26":@"感恩节", @"12-24":@"平安夜", @"12-25":@"圣诞节"};
+    NSDictionary *lunarCalendarDaysDic = @{@"01-01":@"元旦", @"02-14":@"情人节", @"03-08":@"妇女节", @"03-12":@"植树节", @"03-20":@"春分", @"04-01":@"愚人节", @"04-04":@"清明",  @"05-01":@"劳动节", @"05-04":@"青年节", @"06-01":@"儿童节", @"07-01":@"建党节", @"08-01":@"建军节", @"09-10":@"教师节", @"10-01":@"国庆节", @"11-26":@"感恩节", @"12-24":@"平安夜", @"12-25":@"圣诞节"};
+    
+    NSDictionary *solarTermsDaysDic = @{@"02-03":@"立春", @"02-18":@"雨水", @"03-05":@"惊蛰", @"04-20":@"谷雨", @"05-05":@"立夏", @"05-21":@"小满", @"06-05":@"芒种", @"06-21":@"夏至", @"07-07":@"小暑", @"07-22":@"大暑", @"08-07":@"立秋", @"08-23":@"处暑", @"09-07":@"白露", @"09-23":@"秋分", @"10-08":@"寒露", @"10-23":@"霜降", @"11-07":@"立冬", @"11-22":@"小雪", @"12-07":@"大雪", @"12-21":@"冬至", @"01-05":@"小寒", @"01-20":@"大寒"};
     
     NSDateFormatter *dateFormatterNow = [[NSDateFormatter alloc] init];
     dateFormatterNow.dateFormat = @"MM-dd";
     NSString *nowDay = [dateFormatterNow stringFromDate:date];
+    
+    NSArray *solarTermsDaysArr = [solarTermsDaysDic allKeys];
+    if ([solarTermsDaysArr containsObject:nowDay]) {
+        solarCalendarDay = [solarTermsDaysDic objectForKey:nowDay];
+    }
     
     NSArray *lunarCalendarDaysArr = [lunarCalendarDaysDic allKeys];
     if ([lunarCalendarDaysArr containsObject:nowDay]) {
