@@ -63,6 +63,7 @@
         dayModel.day = firstModel.totalDays - showLastMonthDays + index + 1;
         dayModel.boolInCurrentMonth = NO;
         dayModel.boolCurrentDay = NO;
+        dayModel.boolSelected = NO;
         [daysArray addObject:dayModel];
     }
     //获取日历本月的日期currentMonth
@@ -73,6 +74,7 @@
         dayModel.day = index + 1;
         dayModel.boolInCurrentMonth = YES;
         dayModel.boolCurrentDay = [self yxJudgetCurrentDayNowMonth:dayModel];
+        dayModel.boolSelected = dayModel.boolCurrentDay;
         [daysArray addObject:dayModel];
     }
     //获取日历最后一星期含有下月的日期nextMonth
@@ -83,6 +85,7 @@
         dayModel.day = index + 1;
         dayModel.boolInCurrentMonth = NO;
         dayModel.boolCurrentDay = NO;
+        dayModel.boolSelected = NO;
         [daysArray addObject:dayModel];
     }
     
@@ -166,8 +169,8 @@
     return _currentDate;
 }
 
-#pragma mark - 组装阳历显示数据
-- (NSString *)assemblySolarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel {
+#pragma mark - 组装阳历及节气显示数据
+- (YXCalendarDayModel *)assemblySolarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"YY-MM-dd"];
@@ -178,6 +181,8 @@
     NSArray *solarCalendarMonths = [NSArray arrayWithObjects:@"正月", @"二月", @"三月", @"四月", @"五月", @"六月", @"七月", @"八月", @"九月", @"十月", @"冬月", @"腊月", nil];
     NSArray *solarCalendarDays = [NSArray arrayWithObjects:@"初一", @"初二", @"初三", @"初四", @"初五", @"初六", @"初七", @"初八", @"初九", @"初十", @"十一", @"十二", @"十三", @"十四", @"十五", @"十六", @"十七", @"十八", @"十九", @"廿十", @"廿一", @"廿二", @"廿三", @"廿四", @"廿五", @"廿六", @"廿七", @"廿八", @"廿九", @"三十", nil];
     
+    YXCalendarDayModel *holidayModel = [[YXCalendarDayModel alloc] init];
+    
     NSCalendar *localeCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
     unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
     NSDateComponents *localeComp = [localeCalendar components:unitFlags fromDate:date];
@@ -186,13 +191,13 @@
     NSString *day = [solarCalendarDays objectAtIndex:localeComp.day - 1];
     
     NSString *solarCalendarDay = day;
-    
     NSDictionary *solarCalendarMonthsDic = @{@"正月初一":@"春节", @"正月十五":@"元宵节", @"五月初五":@"端午节", @"八月十五":@"中秋节", @"九月初九":@"重阳节", @"腊月初八":@"腊八节", @"腊月廿三":@"小年", @"腊月三十":@"除夕"};
     NSString *monthAndDay = [NSString stringWithFormat:@"%@%@", month, day];
     
     NSArray *solarCalendarMonthsArr = [solarCalendarMonthsDic allKeys];
     if ([solarCalendarMonthsArr containsObject:monthAndDay]) {
         solarCalendarDay = [solarCalendarMonthsDic objectForKey:monthAndDay];
+        holidayModel.boolHoliday = YES;
     }
     else if ([solarCalendarMonths containsObject:month] && [day isEqualToString:@"初一"]) {
         solarCalendarDay = @"初一";
@@ -209,13 +214,17 @@
     NSArray *solarTermsDaysArr = [solarTermsDaysDic allKeys];
     if ([solarTermsDaysArr containsObject:nowDay]) {
         solarCalendarDay = [solarTermsDaysDic objectForKey:nowDay];
+        holidayModel.boolHoliday = YES;
     }
     
     NSArray *lunarCalendarDaysArr = [lunarCalendarDaysDic allKeys];
     if ([lunarCalendarDaysArr containsObject:nowDay]) {
         solarCalendarDay = [lunarCalendarDaysDic objectForKey:nowDay];
+        holidayModel.boolHoliday = YES;
     }
-    return solarCalendarDay;
+    holidayModel.holidayNamed = solarCalendarDay;
+    
+    return holidayModel;
 }
 
 @end

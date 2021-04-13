@@ -9,6 +9,8 @@
 #import "YXWeeksView.h"
 #import "YXCalendarDayCell.h"
 
+#define kYXCalendarViewBgColor [[UIColor blackColor] colorWithAlphaComponent:0.5]
+
 @interface YXCalendarView () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) YXWeeksView *weeksView;
@@ -96,7 +98,13 @@
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+
+    NSInteger idx = 0;
+    for (YXCalendarDayModel *dayModel in self.dataSourceArr) {
+        dayModel.boolSelected = idx == indexPath.row ? YES : NO;
+        idx++;
+    }
+    [collectionView reloadData];
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -123,6 +131,7 @@
 #pragma mark - 初始化视图
 - (void)initView {
     
+    self.backgroundColor = [UIColor clearColor];
     [self updateMonthMethodByMonths:0];
 }
 
@@ -131,7 +140,7 @@
     
     if (!_weeksView) {
         _weeksView = [[YXWeeksView alloc] init];
-        _weeksView.backgroundColor = [UIColor clearColor];
+        _weeksView.backgroundColor = kYXCalendarViewBgColor;
         [self addSubview:_weeksView];
         
         __weak typeof(self) weakSelf = self;
@@ -160,7 +169,7 @@
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.pagingEnabled = YES;
-        _scrollView.backgroundColor = [UIColor clearColor];
+        _scrollView.backgroundColor = kYXCalendarViewBgColor;
         [self addSubview:_scrollView];
         
         [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {

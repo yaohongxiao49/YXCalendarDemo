@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
                               calendarBlock:(void(^)(NSArray *daysArr, YXCalendarBaseModel *baseModel))calendarBlock;
 
 /** 组装阳历数据 */
-- (NSString *)assemblySolarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel;
+- (YXCalendarDayModel *)assemblySolarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel;
 
 @end
 

@@ -30,11 +30,14 @@
     
     YXCalendarDayModel *dayModel = valueArr[indexPath.row];
     
-    _lunarCalendarLab.text = [NSString stringWithFormat:@"%ld", dayModel.day];
-    _solarCalendarLab.text = [[YXCalendarManager sharedManager] assemblySolarCalendarDayModelByDayModel:dayModel] ? :@"";
-    
     [self bgViewLayerBorderByBoolBorder:dayModel.boolCurrentDay];
-    [self bgViewBgColorByBoolCurrentMonth:dayModel.boolInCurrentMonth];
+    [self bgViewBgColorByBoolSelected:dayModel.boolSelected];
+    
+    _lunarCalendarLab.text = [NSString stringWithFormat:@"%ld", dayModel.day];
+    YXCalendarDayModel *holidayModel = [[YXCalendarManager sharedManager] assemblySolarCalendarDayModelByDayModel:dayModel];
+    _solarCalendarLab.text = holidayModel.holidayNamed ? : @"";
+    
+    [self titleColorByBoolCurrentMonth:dayModel.boolInCurrentMonth boolHoliday:holidayModel.boolHoliday];
 }
 
 #pragma mark - 背景视图边框变化
@@ -48,14 +51,27 @@
     }
 }
 
-#pragma mark - 背景视图背景色变化
-- (void)bgViewBgColorByBoolCurrentMonth:(BOOL)boolCurrentMonth {
-    
-    if (boolCurrentMonth) {
-        _bgView.backgroundColor = [UIColor redColor];
+#pragma mark - 背景视图色值变化
+- (void)bgViewBgColorByBoolSelected:(BOOL)boolSelected {
+
+    if (boolSelected) {
+        _bgView.backgroundColor = [UIColor colorWithRed:225 /255.0 green:225 /255.0 blue:225 /255.0 alpha:0.2];
     }
     else {
-        _bgView.backgroundColor = [UIColor colorWithRed:220 /255.0 green:220 /255.0 blue:220 /255.0 alpha:0.2];
+        _bgView.backgroundColor = [UIColor clearColor];
+    }
+}
+
+#pragma mark - 文字显示色值变化
+- (void)titleColorByBoolCurrentMonth:(BOOL)boolCurrentMonth boolHoliday:(BOOL)boolHoliday {
+    
+    if (boolCurrentMonth) {
+        _lunarCalendarLab.textColor = [UIColor whiteColor];
+        _solarCalendarLab.textColor = boolHoliday ? [UIColor colorWithRed:255 /255.0 green:221 /255.0 blue:0 /255.0 alpha:1] : [UIColor colorWithRed:220 /255.0 green:220 /255.0 blue:220 /255.0 alpha:1];
+    }
+    else {
+        _lunarCalendarLab.textColor = [UIColor colorWithRed:112 /255.0 green:112 /255.0 blue:112 /255.0 alpha:1];
+        _solarCalendarLab.textColor = boolHoliday ? [UIColor colorWithRed:145 /255.0 green:133 /255.0 blue:58 /255.0 alpha:1] : [UIColor colorWithRed:112 /255.0 green:112 /255.0 blue:112 /255.0 alpha:1];
     }
 }
 
@@ -72,10 +88,10 @@
     
     if (!_bgView) {
         _bgView = [[UIView alloc] init];
-        _bgView.backgroundColor = [UIColor redColor];
+        _bgView.backgroundColor = [UIColor clearColor];
         _bgView.layer.cornerRadius = 5;
         _bgView.layer.masksToBounds = YES;
-        _bgView.layer.borderColor = [UIColor blackColor].CGColor;
+        _bgView.layer.borderColor = [UIColor whiteColor].CGColor;
         _bgView.layer.borderWidth = 0;
         [self.contentView addSubview:_bgView];
         

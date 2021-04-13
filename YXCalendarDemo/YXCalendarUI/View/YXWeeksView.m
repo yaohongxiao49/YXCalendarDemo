@@ -100,7 +100,7 @@
     
     if (!_monthBgView) {
         _monthBgView = [[UIView alloc] init];
-        _monthBgView.backgroundColor = [UIColor blackColor];
+        _monthBgView.backgroundColor = [UIColor clearColor];
         [self addSubview:_monthBgView];
         
         [_monthBgView mas_makeConstraints:^(MASConstraintMaker *make) {

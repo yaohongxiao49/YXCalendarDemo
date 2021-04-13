@@ -15,6 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL boolCurrentDay;
 /** 这天是否属于当前月*/
 @property (nonatomic, assign) BOOL boolInCurrentMonth;
+/** 是否选中 */
+@property (nonatomic, assign) BOOL boolSelected;
+/** 是否是假日/节气 */
+@property (nonatomic, assign) BOOL boolHoliday;
+/** 假日名称 */
+@property (nonatomic, copy) NSString *holidayNamed;
 
 @end
 
