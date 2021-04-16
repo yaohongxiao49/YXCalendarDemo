@@ -37,17 +37,14 @@
 }
 
 #pragma mark - 获取日历容器数据
-- (void)yxCalendarContainerWithNearByMonths:(NSInteger)currentTag calendarBlock:(void(^)(NSArray *daysArr, YXCalendarBaseModel *baseModel))calendarBlock {
+- (void)yxCalendarContainerWithNearByMonths:(NSInteger)currentTag boolOnlyCurrent:(BOOL)boolOnlyCurrent calendarBlock:(void(^)(NSArray *daysArr, YXCalendarBaseModel *baseModel))calendarBlock {
     
-    NSArray *nearByMonths = [self yxGetNearByMonths:currentTag];
+    NSArray *nearByMonths = [self yxGetNearByMonths:currentTag boolOnlyCurrent:boolOnlyCurrent];
     if (nearByMonths.count < 1) return;
     NSMutableArray *daysArray = [NSMutableArray arrayWithCapacity:2];
 
     //获取本月相近的前后两月信息
-    YXCalendarBaseModel *firstModel = [nearByMonths objectAtIndex:0];
-    YXCalendarBaseModel *currentModel = [nearByMonths objectAtIndex:1];
-    YXCalendarBaseModel *lastModel = [nearByMonths objectAtIndex:2];
-    
+    YXCalendarBaseModel *currentModel = [nearByMonths objectAtIndex:boolOnlyCurrent ? 0 : 1];
     //显示上一月天数
     NSInteger showLastMonthDays = currentModel.firstWeekday;
     //还剩多少天没有满一星期
@@ -55,71 +52,107 @@
     //显示下一月天数
     NSInteger showNextMonthDays = 7 - (lastWeekDays != 0 ? lastWeekDays : 7);
     
-    //获取日历第一个星期含有上月末尾日期lastMonth
-    for (NSInteger index = 0; index < showLastMonthDays; index++) {
-        YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc] init];
-        dayModel.year = firstModel.year;
-        dayModel.month = firstModel.month;
-        dayModel.day = firstModel.totalDays - showLastMonthDays + index + 1;
-        dayModel.boolInCurrentMonth = NO;
-        dayModel.boolCurrentDay = NO;
-        dayModel.boolSelected = NO;
-        [daysArray addObject:dayModel];
+    if (!boolOnlyCurrent) {
+        YXCalendarBaseModel *firstModel = [nearByMonths objectAtIndex:0];
+        YXCalendarBaseModel *lastModel = [nearByMonths objectAtIndex:2];
+        
+        //获取日历第一个星期含有上月末尾日期lastMonth
+        for (NSInteger index = 0; index < showLastMonthDays; index++) {
+            YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc] init];
+            dayModel.year = firstModel.year;
+            dayModel.month = firstModel.month;
+            dayModel.day = firstModel.totalDays - showLastMonthDays + index + 1;
+            dayModel.boolInCurrentMonth = NO;
+            dayModel.boolCurrentDay = NO;
+            dayModel.boolSelected = NO;
+            [daysArray addObject:dayModel];
+        }
+        //获取日历本月的日期currentMonth
+        for (NSInteger index = 0; index < currentModel.totalDays; index++) {
+            YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc]init];
+            dayModel.year = currentModel.year;
+            dayModel.month = currentModel.month;
+            dayModel.day = index + 1;
+            dayModel.boolInCurrentMonth = YES;
+            dayModel.boolCurrentDay = [self yxJudgetCurrentDayNowMonth:dayModel];
+            dayModel.boolSelected = dayModel.boolCurrentDay;
+            [daysArray addObject:dayModel];
+        }
+        //获取日历最后一星期含有下月的日期nextMonth
+        for (NSInteger index = 0; index < showNextMonthDays; index++) {
+            YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc]init];
+            dayModel.year = lastModel.year;
+            dayModel.month = lastModel.month;
+            dayModel.day = index + 1;
+            dayModel.boolInCurrentMonth = NO;
+            dayModel.boolCurrentDay = NO;
+            dayModel.boolSelected = NO;
+            [daysArray addObject:dayModel];
+        }
     }
-    //获取日历本月的日期currentMonth
-    for (NSInteger index = 0; index < currentModel.totalDays; index++) {
-        YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc]init];
-        dayModel.year = currentModel.year;
-        dayModel.month = currentModel.month;
-        dayModel.day = index + 1;
-        dayModel.boolInCurrentMonth = YES;
-        dayModel.boolCurrentDay = [self yxJudgetCurrentDayNowMonth:dayModel];
-        dayModel.boolSelected = dayModel.boolCurrentDay;
-        [daysArray addObject:dayModel];
-    }
-    //获取日历最后一星期含有下月的日期nextMonth
-    for (NSInteger index = 0; index < showNextMonthDays; index++) {
-        YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc]init];
-        dayModel.year = lastModel.year;
-        dayModel.month = lastModel.month;
-        dayModel.day = index + 1;
-        dayModel.boolInCurrentMonth = NO;
-        dayModel.boolCurrentDay = NO;
-        dayModel.boolSelected = NO;
-        [daysArray addObject:dayModel];
+    else {
+        for (NSInteger index = 0; index < currentModel.totalDays; index++) {
+            YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc]init];
+            dayModel.year = currentModel.year;
+            dayModel.month = currentModel.month;
+            dayModel.day = index + 1;
+            dayModel.boolInCurrentMonth = YES;
+            dayModel.boolCurrentDay = [self yxJudgetCurrentDayNowMonth:dayModel];
+            dayModel.boolSelected = dayModel.boolCurrentDay;
+            [daysArray addObject:dayModel];
+        }
     }
     
     calendarBlock(daysArray, currentModel);
 }
 
 #pragma mark - 获取本月临近两月
-- (NSArray *)yxGetNearByMonths:(NSInteger)currentTag {
+- (NSArray *)yxGetNearByMonths:(NSInteger)currentTag boolOnlyCurrent:(BOOL)boolOnlyCurrent {
     
     NSDate *date = [NSDate date];
-    NSDate *last = [NSDate yxGetLastMonthDate:date];
-    NSDate *next = [NSDate yxGetNextMonthDate:date];
-    
-    if (currentTag > 0) {
-        for (int i = 0; i < currentTag; i++) {
-            date = [NSDate yxGetNextMonthDate:date];
-            last = [NSDate yxGetLastMonthDate:date];
-            next = [NSDate yxGetNextMonthDate:date];
+    if (boolOnlyCurrent) {
+        if (currentTag > 0) {
+            for (int i = 0; i < currentTag; i++) {
+                date = [NSDate yxGetNextMonthDate:date];
+            }
         }
+        else {
+            currentTag = labs(currentTag);
+            for (int i = 0; i < currentTag; i++) {
+                date = [NSDate yxGetLastMonthDate:date];
+            }
+        }
+        self.currentDate = date;
+        YXCalendarBaseModel *currentMonth = [self yxGetMonthWithDate:date];
+        
+        return @[currentMonth];
     }
     else {
-        currentTag = labs(currentTag);
-        for (int i = 0; i < currentTag; i++) {
-            date = [NSDate yxGetLastMonthDate:date];
-            last = [NSDate yxGetLastMonthDate:date];
-            next = [NSDate yxGetNextMonthDate:date];
+        NSDate *last = [NSDate yxGetLastMonthDate:date];
+        NSDate *next = [NSDate yxGetNextMonthDate:date];
+        
+        if (currentTag > 0) {
+            for (int i = 0; i < currentTag; i++) {
+                date = [NSDate yxGetNextMonthDate:date];
+                last = [NSDate yxGetLastMonthDate:date];
+                next = [NSDate yxGetNextMonthDate:date];
+            }
         }
+        else {
+            currentTag = labs(currentTag);
+            for (int i = 0; i < currentTag; i++) {
+                date = [NSDate yxGetLastMonthDate:date];
+                last = [NSDate yxGetLastMonthDate:date];
+                next = [NSDate yxGetNextMonthDate:date];
+            }
+        }
+        self.currentDate = date;
+        YXCalendarBaseModel *currentMonth = [self yxGetMonthWithDate:date];
+        YXCalendarBaseModel *lastMonth = [self yxGetMonthWithDate:last];
+        YXCalendarBaseModel *nextMonth = [self yxGetMonthWithDate:next];
+        
+        return @[lastMonth, currentMonth, nextMonth];
     }
-    self.currentDate = date;
-    YXCalendarBaseModel *currentMonth = [self yxGetMonthWithDate:date];
-    YXCalendarBaseModel *lastMonth = [self yxGetMonthWithDate:last];
-    YXCalendarBaseModel *nextMonth = [self yxGetMonthWithDate:next];
-    
-    return @[lastMonth, currentMonth, nextMonth];
 }
 
 #pragma mark - 根据NSDate对象获取组装月份数据
