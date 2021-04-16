@@ -23,6 +23,8 @@
 		8419799126242685003E821D /* YXCalendarWeeksCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8419799026242685003E821D /* YXCalendarWeeksCell.m */; };
 		8419799D2624426F003E821D /* YXCalendarBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8419799C2624426F003E821D /* YXCalendarBaseModel.m */; };
 		841979AE262442B5003E821D /* YXCalendarDayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 841979AD262442B5003E821D /* YXCalendarDayModel.m */; };
+		8421388E262991EB00CF5714 /* YXCalendarYearModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8421388D262991EB00CF5714 /* YXCalendarYearModel.m */; };
+		84213894262991FC00CF5714 /* YXCalendarMonthModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 84213893262991FC00CF5714 /* YXCalendarMonthModel.m */; };
 		D367223032086EF45C3B3AF1 /* libPods-YXCalendarDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B82B76BFF859C31B26A50C /* libPods-YXCalendarDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +81,10 @@
 		8419799C2624426F003E821D /* YXCalendarBaseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXCalendarBaseModel.m; sourceTree = "<group>"; };
 		841979AC262442B5003E821D /* YXCalendarDayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YXCalendarDayModel.h; sourceTree = "<group>"; };
 		841979AD262442B5003E821D /* YXCalendarDayModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXCalendarDayModel.m; sourceTree = "<group>"; };
+		8421388C262991EB00CF5714 /* YXCalendarYearModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YXCalendarYearModel.h; sourceTree = "<group>"; };
+		8421388D262991EB00CF5714 /* YXCalendarYearModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXCalendarYearModel.m; sourceTree = "<group>"; };
+		84213892262991FC00CF5714 /* YXCalendarMonthModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YXCalendarMonthModel.h; sourceTree = "<group>"; };
+		84213893262991FC00CF5714 /* YXCalendarMonthModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXCalendarMonthModel.m; sourceTree = "<group>"; };
 		97B82B76BFF859C31B26A50C /* libPods-YXCalendarDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YXCalendarDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -213,6 +219,10 @@
 				8419793E2623F162003E821D /* NSDate+YXCalendar.m */,
 				8419799B2624426F003E821D /* YXCalendarBaseModel.h */,
 				8419799C2624426F003E821D /* YXCalendarBaseModel.m */,
+				8421388C262991EB00CF5714 /* YXCalendarYearModel.h */,
+				8421388D262991EB00CF5714 /* YXCalendarYearModel.m */,
+				84213892262991FC00CF5714 /* YXCalendarMonthModel.h */,
+				84213893262991FC00CF5714 /* YXCalendarMonthModel.m */,
 				841979AC262442B5003E821D /* YXCalendarDayModel.h */,
 				841979AD262442B5003E821D /* YXCalendarDayModel.m */,
 			);
@@ -394,10 +404,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				841979302623F113003E821D /* YXCalendarManager.m in Sources */,
+				8421388E262991EB00CF5714 /* YXCalendarYearModel.m in Sources */,
 				8419793F2623F162003E821D /* NSDate+YXCalendar.m in Sources */,
 				8419796C2623F38F003E821D /* YXWeeksView.m in Sources */,
 				841979662623F33D003E821D /* YXCalendarVC.m in Sources */,
 				8419799D2624426F003E821D /* YXCalendarBaseModel.m in Sources */,
+				84213894262991FC00CF5714 /* YXCalendarMonthModel.m in Sources */,
 				841979AE262442B5003E821D /* YXCalendarDayModel.m in Sources */,
 				841979732623F3C0003E821D /* YXCalendarDayCell.m in Sources */,
 				8419799126242685003E821D /* YXCalendarWeeksCell.m in Sources */,

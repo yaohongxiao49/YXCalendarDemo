@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "YXCalendarBaseModel.h"
-#import "YXCalendarDayModel.h"
+#import "YXCalendarYearModel.h"
 #import "NSDate+YXCalendar.h"
 #import "YXCalendarView.h"
 
@@ -48,6 +48,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** 组装阳历数据 */
 - (YXCalendarDayModel *)assemblySolarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel;
+
+
+/** 组装阳历日期 */
+- (YXCalendarDayModel *)assemblySolarDayModelByDayModel:(YXCalendarDayModel *)dayModel;
+
+/** 获取年月日，持续时间，如1900~当前 */
+- (NSMutableArray *)assemblyDateByStartYears:(NSInteger)startYears;
+
+/**
+ * 月份切换
+ * @param type UIViewAnimationOptionTransitionCurlUp/UIViewAnimationOptionTransitionCurlDown 下一个月/上一个月
+ * @param boolCurrent 是否是当前月
+ */
+- (void)monthChangeMethodByType:(UIViewAnimationOptions)type
+                    boolCurrent:(BOOL)boolCurrent
+                  calendarBlock:(void(^)(NSArray *daysArr))calendarBlock;
 
 @end
 
