@@ -30,12 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @param vc 父控制器
  * @param baseView 父视图
  * @param frame 坐标尺寸
- * @param boolShowSolarCalendar 是否显示阳历
+ * @param boolShowLunarCalendar 是否显示农历
  */
 + (void)yxShowCalendarViewByVC:(UIViewController *)vc
                       baseView:(UIView *)baseView
                          frame:(CGRect)frame
-         boolShowSolarCalendar:(BOOL)boolShowSolarCalendar;
+         boolShowLunarCalendar:(BOOL)boolShowLunarCalendar;
 
 /**
  * 获取日历容器数据
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param dayModel 日期模型
  * @param boolContainsTerms 是否包含节假日
  */
-- (YXCalendarDayModel *)assemblySolarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel
+- (YXCalendarDayModel *)assemblyLunarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel
                                               boolContainsTerms:(BOOL)boolContainsTerms;
 
 
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param type 年月日类型
  * @param boolContainsTerms 是否包含节气
  */
-- (NSString *)assemblySingleSolarModelByValue:(id)value
+- (NSString *)assemblySingleLunarModelByValue:(id)value
                                          type:(YXCalendarBaseModelType)type
                             boolContainsTerms:(BOOL)boolContainsTerms;
 

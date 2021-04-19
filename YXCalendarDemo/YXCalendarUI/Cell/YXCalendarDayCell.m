@@ -33,9 +33,9 @@
     [self bgViewLayerBorderByBoolBorder:dayModel.boolCurrentDay];
     [self bgViewBgColorByBoolSelected:dayModel.boolSelected];
     
-    _lunarCalendarLab.text = [NSString stringWithFormat:@"%ld", dayModel.day];
-    YXCalendarDayModel *holidayModel = [[YXCalendarManager sharedManager] assemblySolarCalendarDayModelByDayModel:dayModel boolContainsTerms:YES];
-    _solarCalendarLab.text = holidayModel.holidayNamed ? : @"";
+    self.solarCalendarLab.text = [NSString stringWithFormat:@"%ld", dayModel.day];
+    YXCalendarDayModel *holidayModel = [[YXCalendarManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:YES];
+    self.lunarCalendarLab.text = holidayModel.holidayNamed ? : @"";
     
     [self titleColorByBoolCurrentMonth:dayModel.boolInCurrentMonth boolHoliday:holidayModel.boolHoliday];
 }
@@ -66,20 +66,20 @@
 - (void)titleColorByBoolCurrentMonth:(BOOL)boolCurrentMonth boolHoliday:(BOOL)boolHoliday {
     
     if (boolCurrentMonth) {
-        _lunarCalendarLab.textColor = [UIColor whiteColor];
-        _solarCalendarLab.textColor = boolHoliday ? [UIColor colorWithRed:255 /255.0 green:221 /255.0 blue:0 /255.0 alpha:1] : [UIColor colorWithRed:220 /255.0 green:220 /255.0 blue:220 /255.0 alpha:1];
+        self.solarCalendarLab.textColor = [UIColor whiteColor];
+        self.lunarCalendarLab.textColor = boolHoliday ? [UIColor colorWithRed:255 /255.0 green:221 /255.0 blue:0 /255.0 alpha:1] : [UIColor colorWithRed:220 /255.0 green:220 /255.0 blue:220 /255.0 alpha:1];
     }
     else {
-        _lunarCalendarLab.textColor = [UIColor colorWithRed:112 /255.0 green:112 /255.0 blue:112 /255.0 alpha:1];
-        _solarCalendarLab.textColor = boolHoliday ? [UIColor colorWithRed:145 /255.0 green:133 /255.0 blue:58 /255.0 alpha:1] : [UIColor colorWithRed:112 /255.0 green:112 /255.0 blue:112 /255.0 alpha:1];
+        self.solarCalendarLab.textColor = [UIColor colorWithRed:112 /255.0 green:112 /255.0 blue:112 /255.0 alpha:1];
+        self.lunarCalendarLab.textColor = boolHoliday ? [UIColor colorWithRed:145 /255.0 green:133 /255.0 blue:58 /255.0 alpha:1] : [UIColor colorWithRed:112 /255.0 green:112 /255.0 blue:112 /255.0 alpha:1];
     }
 }
 
 #pragma mark - 初始化视图
 - (void)initView {
     
-    self.lunarCalendarLab.text = @"阴历";
     self.solarCalendarLab.text = @"阳历";
+    self.lunarCalendarLab.text = @"阴历";
     [self bgViewLayerBorderByBoolBorder:YES];
 }
 
@@ -102,41 +102,41 @@
     }
     return _bgView;
 }
-- (UILabel *)lunarCalendarLab {
+- (UILabel *)solarCalendarLab {
     
-    if (!_lunarCalendarLab) {
-        _lunarCalendarLab = [[UILabel alloc] init];
-        _lunarCalendarLab.textColor = [UIColor whiteColor];
-        _lunarCalendarLab.textAlignment = NSTextAlignmentCenter;
-        _lunarCalendarLab.font = [UIFont systemFontOfSize:12];
-        [self.bgView addSubview:_lunarCalendarLab];
+    if (!_solarCalendarLab) {
+        _solarCalendarLab = [[UILabel alloc] init];
+        _solarCalendarLab.textColor = [UIColor whiteColor];
+        _solarCalendarLab.textAlignment = NSTextAlignmentCenter;
+        _solarCalendarLab.font = [UIFont systemFontOfSize:12];
+        [self.bgView addSubview:_solarCalendarLab];
         
-        [_lunarCalendarLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_solarCalendarLab mas_makeConstraints:^(MASConstraintMaker *make) {
            
             make.top.equalTo(self.bgView).with.offset(5);
             make.left.equalTo(self.bgView).with.offset(5);
             make.right.equalTo(self.bgView).with.offset(-5);
         }];
     }
-    return _lunarCalendarLab;
+    return _solarCalendarLab;
 }
-- (UILabel *)solarCalendarLab {
+- (UILabel *)lunarCalendarLab {
     
-    if (!_solarCalendarLab) {
-        _solarCalendarLab = [[UILabel alloc] init];
-        _solarCalendarLab.textColor = [UIColor colorWithRed:220 /255.0 green:220 /255.0 blue:220 /255.0 alpha:1];
-        _solarCalendarLab.textAlignment = NSTextAlignmentCenter;
-        _solarCalendarLab.font = [UIFont systemFontOfSize:9];
-        [self.bgView addSubview:_solarCalendarLab];
+    if (!_lunarCalendarLab) {
+        _lunarCalendarLab = [[UILabel alloc] init];
+        _lunarCalendarLab.textColor = [UIColor colorWithRed:220 /255.0 green:220 /255.0 blue:220 /255.0 alpha:1];
+        _lunarCalendarLab.textAlignment = NSTextAlignmentCenter;
+        _lunarCalendarLab.font = [UIFont systemFontOfSize:9];
+        [self.bgView addSubview:_lunarCalendarLab];
         
-        [_solarCalendarLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_lunarCalendarLab mas_makeConstraints:^(MASConstraintMaker *make) {
            
-            make.left.and.right.equalTo(self.lunarCalendarLab);
-            make.top.equalTo(self.lunarCalendarLab.mas_bottom).with.offset(5);
+            make.left.and.right.equalTo(self.solarCalendarLab);
+            make.top.equalTo(self.solarCalendarLab.mas_bottom).with.offset(5);
             make.bottom.equalTo(self.bgView).with.offset(-5);
         }];
     }
-    return _solarCalendarLab;
+    return _lunarCalendarLab;
 }
 
 @end

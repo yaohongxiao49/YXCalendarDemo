@@ -29,10 +29,10 @@
 }
 
 #pragma mark - 显示日历视图
-+ (void)yxShowCalendarViewByVC:(UIViewController *)vc baseView:(UIView *)baseView frame:(CGRect)frame boolShowSolarCalendar:(BOOL)boolShowSolarCalendar {
++ (void)yxShowCalendarViewByVC:(UIViewController *)vc baseView:(UIView *)baseView frame:(CGRect)frame boolShowLunarCalendar:(BOOL)boolShowLunarCalendar {
     
     YXCalendarView *calendarView = [[YXCalendarView alloc] initWithFrame:frame];
-    calendarView.boolShowSolarCalendar = boolShowSolarCalendar;
+    calendarView.boolShowLunarCalendar = boolShowLunarCalendar;
     [baseView addSubview:calendarView];
 }
 
@@ -203,7 +203,7 @@
 }
 
 #pragma mark - 组装阳历及节气显示数据
-- (YXCalendarDayModel *)assemblySolarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel boolContainsTerms:(BOOL)boolContainsTerms {
+- (YXCalendarDayModel *)assemblyLunarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel boolContainsTerms:(BOOL)boolContainsTerms {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"YYYY-MM-dd"];
@@ -213,8 +213,8 @@
     if (!date) return nil;
     NSArray *heavenlyStems = [NSArray arrayWithObjects:@"癸", @"甲", @"乙", @"丙", @"丁", @"戊", @"己", @"庚", @"辛", @"壬", nil];
     NSArray *earthlyBranches = [NSArray arrayWithObjects:@"亥", @"子", @"丑", @"寅", @"卯", @"辰", @"巳", @"午", @"未", @"申", @"酉", @"戌", nil];
-    NSArray *solarCalendarMonths = [NSArray arrayWithObjects:@"正月", @"二月", @"三月", @"四月", @"五月", @"六月", @"七月", @"八月", @"九月", @"十月", @"冬月", @"腊月", nil];
-    NSArray *solarCalendarDays = [NSArray arrayWithObjects:@"初一", @"初二", @"初三", @"初四", @"初五", @"初六", @"初七", @"初八", @"初九", @"初十", @"十一", @"十二", @"十三", @"十四", @"十五", @"十六", @"十七", @"十八", @"十九", @"廿十", @"廿一", @"廿二", @"廿三", @"廿四", @"廿五", @"廿六", @"廿七", @"廿八", @"廿九", @"三十", nil];
+    NSArray *lunarCalendarMonths = [NSArray arrayWithObjects:@"正月", @"二月", @"三月", @"四月", @"五月", @"六月", @"七月", @"八月", @"九月", @"十月", @"冬月", @"腊月", nil];
+    NSArray *lunarCalendarDays = [NSArray arrayWithObjects:@"初一", @"初二", @"初三", @"初四", @"初五", @"初六", @"初七", @"初八", @"初九", @"初十", @"十一", @"十二", @"十三", @"十四", @"十五", @"十六", @"十七", @"十八", @"十九", @"廿十", @"廿一", @"廿二", @"廿三", @"廿四", @"廿五", @"廿六", @"廿七", @"廿八", @"廿九", @"三十", nil];
     
     YXCalendarDayModel *holidayModel = [[YXCalendarDayModel alloc] init];
     
@@ -223,56 +223,56 @@
     NSDateComponents *localeComp = [localeCalendar components:unitFlags fromDate:date];
     
     NSString *year = [NSString stringWithFormat:@"%@%@", heavenlyStems[localeComp.year %10], earthlyBranches[localeComp.year %12]];
-    NSString *month = [solarCalendarMonths objectAtIndex:localeComp.month - 1];
-    NSString *day = [solarCalendarDays objectAtIndex:localeComp.day - 1];
+    NSString *month = [lunarCalendarMonths objectAtIndex:localeComp.month - 1];
+    NSString *day = [lunarCalendarDays objectAtIndex:localeComp.day - 1];
     
-    NSString *solarCalendarDay = day;
-    holidayModel.solarDay = solarCalendarDay;
-    holidayModel.solarMonth = month;
-    holidayModel.solarYear = year;
-    holidayModel.holidayNamed = solarCalendarDay;
+    NSString *lunarCalendarDay = day;
+    holidayModel.lunarDay = lunarCalendarDay;
+    holidayModel.lunarMonth = month;
+    holidayModel.lunarYear = year;
+    holidayModel.holidayNamed = lunarCalendarDay;
     
     if (boolContainsTerms) {
-        NSDictionary *solarCalendarMonthsDic = @{@"正月初一":@"春节", @"正月十五":@"元宵节", @"五月初五":@"端午节", @"八月十五":@"中秋节", @"九月初九":@"重阳节", @"腊月初八":@"腊八节", @"腊月廿三":@"小年", @"腊月三十":@"除夕"};
+        NSDictionary *lunarCalendarMonthsDic = @{@"正月初一":@"春节", @"正月十五":@"元宵节", @"五月初五":@"端午节", @"八月十五":@"中秋节", @"九月初九":@"重阳节", @"腊月初八":@"腊八节", @"腊月廿三":@"小年", @"腊月三十":@"除夕"};
         NSString *monthAndDay = [NSString stringWithFormat:@"%@%@", month, day];
         
-        NSArray *solarCalendarMonthsArr = [solarCalendarMonthsDic allKeys];
-        if ([solarCalendarMonthsArr containsObject:monthAndDay]) {
-            solarCalendarDay = [solarCalendarMonthsDic objectForKey:monthAndDay];
+        NSArray *lunarCalendarMonthsArr = [lunarCalendarMonthsDic allKeys];
+        if ([lunarCalendarMonthsArr containsObject:monthAndDay]) {
+            lunarCalendarDay = [lunarCalendarMonthsDic objectForKey:monthAndDay];
             holidayModel.boolHoliday = YES;
         }
-        else if ([solarCalendarMonths containsObject:month] && [day isEqualToString:@"初一"]) {
-            solarCalendarDay = @"初一";
+        else if ([lunarCalendarMonths containsObject:month] && [day isEqualToString:@"初一"]) {
+            lunarCalendarDay = @"初一";
         }
         
-        NSDictionary *lunarCalendarDaysDic = @{@"01-01":@"元旦", @"02-14":@"情人节", @"03-08":@"妇女节", @"03-12":@"植树节", @"03-20":@"春分", @"04-01":@"愚人节", @"04-04":@"清明",  @"05-01":@"劳动节", @"05-04":@"青年节", @"06-01":@"儿童节", @"07-01":@"建党节", @"08-01":@"建军节", @"09-10":@"教师节", @"10-01":@"国庆节", @"11-26":@"感恩节", @"12-24":@"平安夜", @"12-25":@"圣诞节"};
+        NSDictionary *solarCalendarDaysDic = @{@"01-01":@"元旦", @"02-14":@"情人节", @"03-08":@"妇女节", @"03-12":@"植树节", @"03-20":@"春分", @"04-01":@"愚人节", @"04-04":@"清明",  @"05-01":@"劳动节", @"05-04":@"青年节", @"06-01":@"儿童节", @"07-01":@"建党节", @"08-01":@"建军节", @"09-10":@"教师节", @"10-01":@"国庆节", @"11-26":@"感恩节", @"12-24":@"平安夜", @"12-25":@"圣诞节"};
         
-        NSDictionary *solarTermsDaysDic = @{@"02-03":@"立春", @"02-18":@"雨水", @"03-05":@"惊蛰", @"04-20":@"谷雨", @"05-05":@"立夏", @"05-21":@"小满", @"06-05":@"芒种", @"06-21":@"夏至", @"07-07":@"小暑", @"07-22":@"大暑", @"08-07":@"立秋", @"08-23":@"处暑", @"09-07":@"白露", @"09-23":@"秋分", @"10-08":@"寒露", @"10-23":@"霜降", @"11-07":@"立冬", @"11-22":@"小雪", @"12-07":@"大雪", @"12-21":@"冬至", @"01-05":@"小寒", @"01-20":@"大寒"};
+        NSDictionary *lunarTermsDaysDic = @{@"02-03":@"立春", @"02-18":@"雨水", @"03-05":@"惊蛰", @"04-20":@"谷雨", @"05-05":@"立夏", @"05-21":@"小满", @"06-05":@"芒种", @"06-21":@"夏至", @"07-07":@"小暑", @"07-22":@"大暑", @"08-07":@"立秋", @"08-23":@"处暑", @"09-07":@"白露", @"09-23":@"秋分", @"10-08":@"寒露", @"10-23":@"霜降", @"11-07":@"立冬", @"11-22":@"小雪", @"12-07":@"大雪", @"12-21":@"冬至", @"01-05":@"小寒", @"01-20":@"大寒"};
         
         NSDateFormatter *dateFormatterNow = [[NSDateFormatter alloc] init];
         dateFormatterNow.dateFormat = @"MM-dd";
         NSString *nowDay = [dateFormatterNow stringFromDate:date];
         
-        NSArray *solarTermsDaysArr = [solarTermsDaysDic allKeys];
-        if ([solarTermsDaysArr containsObject:nowDay]) {
-            solarCalendarDay = [solarTermsDaysDic objectForKey:nowDay];
+        NSArray *lunarTermsDaysArr = [lunarTermsDaysDic allKeys];
+        if ([lunarTermsDaysArr containsObject:nowDay]) {
+            lunarCalendarDay = [lunarTermsDaysDic objectForKey:nowDay];
             holidayModel.boolHoliday = YES;
         }
         
-        NSArray *lunarCalendarDaysArr = [lunarCalendarDaysDic allKeys];
-        if ([lunarCalendarDaysArr containsObject:nowDay]) {
-            solarCalendarDay = [lunarCalendarDaysDic objectForKey:nowDay];
+        NSArray *solarCalendarDaysArr = [solarCalendarDaysDic allKeys];
+        if ([solarCalendarDaysArr containsObject:nowDay]) {
+            lunarCalendarDay = [solarCalendarDaysDic objectForKey:nowDay];
             holidayModel.boolHoliday = YES;
         }
-        holidayModel.holidayNamed = solarCalendarDay;
-        holidayModel.solarDay = solarCalendarDay;
+        holidayModel.holidayNamed = lunarCalendarDay;
+        holidayModel.lunarDay = lunarCalendarDay;
     }
     
     return holidayModel;
 }
 
 #pragma mark - 组装阴历
-- (NSString *)assemblySingleSolarModelByValue:(id)value type:(YXCalendarBaseModelType)type boolContainsTerms:(BOOL)boolContainsTerms {
+- (NSString *)assemblySingleLunarModelByValue:(id)value type:(YXCalendarBaseModelType)type boolContainsTerms:(BOOL)boolContainsTerms {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"YYYY-MM-dd"];
@@ -298,13 +298,12 @@
             break;
     }
 
-    
     NSDate *date = [dateFormatter dateFromString:dateStr];
     if (!date) return nil;
     NSArray *heavenlyStems = [NSArray arrayWithObjects:@"癸", @"甲", @"乙", @"丙", @"丁", @"戊", @"己", @"庚", @"辛", @"壬", nil];
     NSArray *earthlyBranches = [NSArray arrayWithObjects:@"亥", @"子", @"丑", @"寅", @"卯", @"辰", @"巳", @"午", @"未", @"申", @"酉", @"戌", nil];
-    NSArray *solarCalendarMonths = [NSArray arrayWithObjects:@"正月", @"二月", @"三月", @"四月", @"五月", @"六月", @"七月", @"八月", @"九月", @"十月", @"冬月", @"腊月", nil];
-    NSArray *solarCalendarDays = [NSArray arrayWithObjects:@"初一", @"初二", @"初三", @"初四", @"初五", @"初六", @"初七", @"初八", @"初九", @"初十", @"十一", @"十二", @"十三", @"十四", @"十五", @"十六", @"十七", @"十八", @"十九", @"廿十", @"廿一", @"廿二", @"廿三", @"廿四", @"廿五", @"廿六", @"廿七", @"廿八", @"廿九", @"三十", nil];
+    NSArray *lunarCalendarMonths = [NSArray arrayWithObjects:@"正月", @"二月", @"三月", @"四月", @"五月", @"六月", @"七月", @"八月", @"九月", @"十月", @"冬月", @"腊月", nil];
+    NSArray *lunarCalendarDays = [NSArray arrayWithObjects:@"初一", @"初二", @"初三", @"初四", @"初五", @"初六", @"初七", @"初八", @"初九", @"初十", @"十一", @"十二", @"十三", @"十四", @"十五", @"十六", @"十七", @"十八", @"十九", @"廿十", @"廿一", @"廿二", @"廿三", @"廿四", @"廿五", @"廿六", @"廿七", @"廿八", @"廿九", @"三十", nil];
     
     NSString *valueResult = [[NSString alloc] init];
 
@@ -313,37 +312,37 @@
     NSDateComponents *localeComp = [localeCalendar components:unitFlags fromDate:date];
 
     NSString *year = [NSString stringWithFormat:@"%@%@", heavenlyStems[localeComp.year %10], earthlyBranches[localeComp.year %12]];
-    NSString *month = [solarCalendarMonths objectAtIndex:localeComp.month - 1];
-    NSString *day = [solarCalendarDays objectAtIndex:localeComp.day - 1];
+    NSString *month = [lunarCalendarMonths objectAtIndex:localeComp.month - 1];
+    NSString *day = [lunarCalendarDays objectAtIndex:localeComp.day - 1];
 
     if (boolContainsTerms) {
-        NSDictionary *solarCalendarMonthsDic = @{@"正月初一":@"春节", @"正月十五":@"元宵节", @"五月初五":@"端午节", @"八月十五":@"中秋节", @"九月初九":@"重阳节", @"腊月初八":@"腊八节", @"腊月廿三":@"小年", @"腊月三十":@"除夕"};
+        NSDictionary *lunarCalendarMonthsDic = @{@"正月初一":@"春节", @"正月十五":@"元宵节", @"五月初五":@"端午节", @"八月十五":@"中秋节", @"九月初九":@"重阳节", @"腊月初八":@"腊八节", @"腊月廿三":@"小年", @"腊月三十":@"除夕"};
         NSString *monthAndDay = [NSString stringWithFormat:@"%@%@", month, day];
 
-        NSArray *solarCalendarMonthsArr = [solarCalendarMonthsDic allKeys];
-        if ([solarCalendarMonthsArr containsObject:monthAndDay]) {
-            day = [solarCalendarMonthsDic objectForKey:monthAndDay];
+        NSArray *lunarCalendarMonthsArr = [lunarCalendarMonthsDic allKeys];
+        if ([lunarCalendarMonthsArr containsObject:monthAndDay]) {
+            day = [lunarCalendarMonthsDic objectForKey:monthAndDay];
         }
-        else if ([solarCalendarMonths containsObject:month] && [day isEqualToString:@"初一"]) {
+        else if ([lunarCalendarMonths containsObject:month] && [day isEqualToString:@"初一"]) {
             day = @"初一";
         }
 
-        NSDictionary *lunarCalendarDaysDic = @{@"01-01":@"元旦", @"02-14":@"情人节", @"03-08":@"妇女节", @"03-12":@"植树节", @"03-20":@"春分", @"04-01":@"愚人节", @"04-04":@"清明",  @"05-01":@"劳动节", @"05-04":@"青年节", @"06-01":@"儿童节", @"07-01":@"建党节", @"08-01":@"建军节", @"09-10":@"教师节", @"10-01":@"国庆节", @"11-26":@"感恩节", @"12-24":@"平安夜", @"12-25":@"圣诞节"};
+        NSDictionary *solarCalendarDaysDic = @{@"01-01":@"元旦", @"02-14":@"情人节", @"03-08":@"妇女节", @"03-12":@"植树节", @"03-20":@"春分", @"04-01":@"愚人节", @"04-04":@"清明",  @"05-01":@"劳动节", @"05-04":@"青年节", @"06-01":@"儿童节", @"07-01":@"建党节", @"08-01":@"建军节", @"09-10":@"教师节", @"10-01":@"国庆节", @"11-26":@"感恩节", @"12-24":@"平安夜", @"12-25":@"圣诞节"};
 
-        NSDictionary *solarTermsDaysDic = @{@"02-03":@"立春", @"02-18":@"雨水", @"03-05":@"惊蛰", @"04-20":@"谷雨", @"05-05":@"立夏", @"05-21":@"小满", @"06-05":@"芒种", @"06-21":@"夏至", @"07-07":@"小暑", @"07-22":@"大暑", @"08-07":@"立秋", @"08-23":@"处暑", @"09-07":@"白露", @"09-23":@"秋分", @"10-08":@"寒露", @"10-23":@"霜降", @"11-07":@"立冬", @"11-22":@"小雪", @"12-07":@"大雪", @"12-21":@"冬至", @"01-05":@"小寒", @"01-20":@"大寒"};
+        NSDictionary *lunarTermsDaysDic = @{@"02-03":@"立春", @"02-18":@"雨水", @"03-05":@"惊蛰", @"04-20":@"谷雨", @"05-05":@"立夏", @"05-21":@"小满", @"06-05":@"芒种", @"06-21":@"夏至", @"07-07":@"小暑", @"07-22":@"大暑", @"08-07":@"立秋", @"08-23":@"处暑", @"09-07":@"白露", @"09-23":@"秋分", @"10-08":@"寒露", @"10-23":@"霜降", @"11-07":@"立冬", @"11-22":@"小雪", @"12-07":@"大雪", @"12-21":@"冬至", @"01-05":@"小寒", @"01-20":@"大寒"};
 
         NSDateFormatter *dateFormatterNow = [[NSDateFormatter alloc] init];
         dateFormatterNow.dateFormat = @"MM-dd";
         NSString *nowDay = [dateFormatterNow stringFromDate:date];
 
-        NSArray *solarTermsDaysArr = [solarTermsDaysDic allKeys];
-        if ([solarTermsDaysArr containsObject:nowDay]) {
-            day = [solarTermsDaysDic objectForKey:nowDay];
+        NSArray *lunarTermsDaysArr = [lunarTermsDaysDic allKeys];
+        if ([lunarTermsDaysArr containsObject:nowDay]) {
+            day = [lunarTermsDaysDic objectForKey:nowDay];
         }
 
-        NSArray *lunarCalendarDaysArr = [lunarCalendarDaysDic allKeys];
-        if ([lunarCalendarDaysArr containsObject:nowDay]) {
-            day = [lunarCalendarDaysDic objectForKey:nowDay];
+        NSArray *solarCalendarDaysArr = [solarCalendarDaysDic allKeys];
+        if ([solarCalendarDaysArr containsObject:nowDay]) {
+            day = [solarCalendarDaysDic objectForKey:nowDay];
         }
     }
 

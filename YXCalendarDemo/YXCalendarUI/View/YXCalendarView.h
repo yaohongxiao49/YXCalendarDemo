@@ -11,8 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YXCalendarView : UIView
 
-/** 是否显示阳历 */
-@property (nonatomic, assign) BOOL boolShowSolarCalendar;
+/** 是否显示农历 */
+@property (nonatomic, assign) BOOL boolShowLunarCalendar;
 
 @end
 

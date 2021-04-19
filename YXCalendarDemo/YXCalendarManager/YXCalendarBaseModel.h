@@ -27,11 +27,11 @@ typedef NS_ENUM(NSUInteger, YXCalendarBaseModelType) {
 /** 当前天 */
 @property (nonatomic, assign) NSInteger day;
 /** 当前年(农历) */
-@property (nonatomic, copy) NSString *solarYear;
+@property (nonatomic, copy) NSString *lunarYear;
 /** 当前月(农历) */
-@property (nonatomic, copy) NSString *solarMonth;
+@property (nonatomic, copy) NSString *lunarMonth;
 /** 当前天(农历) */
-@property (nonatomic, copy) NSString *solarDay;
+@property (nonatomic, copy) NSString *lunarDay;
 /** 当月天数 */
 @property (nonatomic, assign) NSInteger totalDays;
 /** 起始是星期几（0：周日，1：周一....） */
