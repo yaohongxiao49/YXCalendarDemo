@@ -37,7 +37,7 @@
 }
 
 #pragma mark - 获取日历容器数据
-- (void)yxCalendarContainerWithNearByMonths:(NSInteger)currentTag boolOnlyCurrent:(BOOL)boolOnlyCurrent calendarBlock:(void(^)(NSArray *daysArr, YXCalendarBaseModel *baseModel))calendarBlock {
+- (void)yxCalendarContainerWithNearByMonths:(NSInteger)currentTag boolOnlyCurrent:(BOOL)boolOnlyCurrent boolContainsTerms:(BOOL)boolContainsTerms calendarBlock:(void(^)(NSArray *daysArr, YXCalendarBaseModel *baseModel))calendarBlock {
     
     NSArray *nearByMonths = [self yxGetNearByMonths:currentTag boolOnlyCurrent:boolOnlyCurrent];
     if (nearByMonths.count < 1) return;
@@ -65,41 +65,45 @@
             dayModel.boolInCurrentMonth = NO;
             dayModel.boolCurrentDay = NO;
             dayModel.boolSelected = NO;
-            [daysArray addObject:dayModel];
+            YXCalendarDayModel *endDayModel = [[YXCalendarManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];
+            [daysArray addObject:endDayModel];
         }
         //获取日历本月的日期currentMonth
         for (NSInteger index = 0; index < currentModel.totalDays; index++) {
-            YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc]init];
+            YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc] init];
             dayModel.year = currentModel.year;
             dayModel.month = currentModel.month;
             dayModel.day = index + 1;
             dayModel.boolInCurrentMonth = YES;
             dayModel.boolCurrentDay = [self yxJudgetCurrentDayNowMonth:dayModel];
             dayModel.boolSelected = dayModel.boolCurrentDay;
-            [daysArray addObject:dayModel];
+            YXCalendarDayModel *endDayModel = [[YXCalendarManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];
+            [daysArray addObject:endDayModel];
         }
         //获取日历最后一星期含有下月的日期nextMonth
         for (NSInteger index = 0; index < showNextMonthDays; index++) {
-            YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc]init];
+            YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc] init];
             dayModel.year = lastModel.year;
             dayModel.month = lastModel.month;
             dayModel.day = index + 1;
             dayModel.boolInCurrentMonth = NO;
             dayModel.boolCurrentDay = NO;
             dayModel.boolSelected = NO;
-            [daysArray addObject:dayModel];
+            YXCalendarDayModel *endDayModel = [[YXCalendarManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];
+            [daysArray addObject:endDayModel];
         }
     }
     else {
         for (NSInteger index = 0; index < currentModel.totalDays; index++) {
-            YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc]init];
+            YXCalendarDayModel *dayModel = [[YXCalendarDayModel alloc] init];
             dayModel.year = currentModel.year;
             dayModel.month = currentModel.month;
             dayModel.day = index + 1;
             dayModel.boolInCurrentMonth = YES;
             dayModel.boolCurrentDay = [self yxJudgetCurrentDayNowMonth:dayModel];
             dayModel.boolSelected = dayModel.boolCurrentDay;
-            [daysArray addObject:dayModel];
+            YXCalendarDayModel *endDayModel = [[YXCalendarManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];
+            [daysArray addObject:endDayModel];
         }
     }
     
@@ -216,7 +220,7 @@
     NSArray *lunarCalendarMonths = [NSArray arrayWithObjects:@"正月", @"二月", @"三月", @"四月", @"五月", @"六月", @"七月", @"八月", @"九月", @"十月", @"冬月", @"腊月", nil];
     NSArray *lunarCalendarDays = [NSArray arrayWithObjects:@"初一", @"初二", @"初三", @"初四", @"初五", @"初六", @"初七", @"初八", @"初九", @"初十", @"十一", @"十二", @"十三", @"十四", @"十五", @"十六", @"十七", @"十八", @"十九", @"廿十", @"廿一", @"廿二", @"廿三", @"廿四", @"廿五", @"廿六", @"廿七", @"廿八", @"廿九", @"三十", nil];
     
-    YXCalendarDayModel *holidayModel = [[YXCalendarDayModel alloc] init];
+    YXCalendarDayModel *holidayModel = dayModel;
     
     NSCalendar *localeCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
     unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
@@ -272,7 +276,7 @@
 }
 
 #pragma mark - 组装阴历
-- (NSString *)assemblySingleLunarModelByValue:(id)value type:(YXCalendarBaseModelType)type boolContainsTerms:(BOOL)boolContainsTerms {
+- (NSDictionary *)assemblySingleLunarModelByValue:(id)value type:(YXCalendarBaseModelType)type boolContainsTerms:(BOOL)boolContainsTerms {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"YYYY-MM-dd"];
@@ -305,8 +309,6 @@
     NSArray *lunarCalendarMonths = [NSArray arrayWithObjects:@"正月", @"二月", @"三月", @"四月", @"五月", @"六月", @"七月", @"八月", @"九月", @"十月", @"冬月", @"腊月", nil];
     NSArray *lunarCalendarDays = [NSArray arrayWithObjects:@"初一", @"初二", @"初三", @"初四", @"初五", @"初六", @"初七", @"初八", @"初九", @"初十", @"十一", @"十二", @"十三", @"十四", @"十五", @"十六", @"十七", @"十八", @"十九", @"廿十", @"廿一", @"廿二", @"廿三", @"廿四", @"廿五", @"廿六", @"廿七", @"廿八", @"廿九", @"三十", nil];
     
-    NSString *valueResult = [[NSString alloc] init];
-
     NSCalendar *localeCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
     unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
     NSDateComponents *localeComp = [localeCalendar components:unitFlags fromDate:date];
@@ -346,27 +348,21 @@
         }
     }
 
-    switch (type) {
-        case YXCalendarBaseModelTypeYears: {
-            valueResult = year;
-            break;
-        }
-        case YXCalendarBaseModelTypeMonths: {
-            valueResult = month;
-            break;
-        }
-        case YXCalendarBaseModelTypeDays: {
-            valueResult = day;
-            break;
-        }
-        default:
-            break;
+    if (type == YXCalendarBaseModelTypeYears) {
+        NSDictionary *dic = @{kYXCalendarManagerLunarYear:year, kYXCalendarManagerLunarMonth:@"", kYXCalendarManagerLunarDay:@""};
+        return dic;
     }
-
-    return valueResult;
+    else if (type == YXCalendarBaseModelTypeMonths) {
+        NSDictionary *dic = @{kYXCalendarManagerLunarYear:year, kYXCalendarManagerLunarMonth:month, kYXCalendarManagerLunarDay:@""};
+        return dic;
+    }
+    else {
+        NSDictionary *dic = @{kYXCalendarManagerLunarYear:year, kYXCalendarManagerLunarMonth:month, kYXCalendarManagerLunarDay:day};
+        return dic;
+    }
 }
 
-- (NSMutableArray *)assemblyDateByStartYears:(NSInteger)startYears {
+- (NSMutableArray *)assemblyDateByStartYears:(NSInteger)startYears boolContainsTerms:(BOOL)boolContainsTerms {
     
     NSMutableArray *arr = [[NSMutableArray alloc] init];
     
@@ -386,7 +382,7 @@
                 
                 NSMutableArray *dayArr = [[NSMutableArray alloc] init];
                 
-                [self monthChangeMethodByType:UIViewAnimationOptionTransitionCurlDown boolCurrent:(j == nowMonth) calendarBlock:^(NSArray *daysArr) {
+                [self monthChangeMethodByType:UIViewAnimationOptionTransitionCurlDown boolCurrent:(j == nowMonth) boolContainsTerms:boolContainsTerms calendarBlock:^(NSArray *daysArr) {
                     
                     [dayArr addObjectsFromArray:daysArr];
                     monthModel.dayArr = dayArr;
@@ -401,7 +397,7 @@
                 monthModel.month = j;
                 
                 NSMutableArray *dayArr = [[NSMutableArray alloc] init];
-                [self monthChangeMethodByType:UIViewAnimationOptionTransitionCurlDown boolCurrent:NO calendarBlock:^(NSArray *daysArr) {
+                [self monthChangeMethodByType:UIViewAnimationOptionTransitionCurlDown boolCurrent:NO boolContainsTerms:boolContainsTerms calendarBlock:^(NSArray *daysArr) {
                     
                     [dayArr addObjectsFromArray:daysArr];
                     monthModel.dayArr = dayArr;
@@ -417,7 +413,7 @@
 }
 
 #pragma mark - 月份切换
-- (void)monthChangeMethodByType:(UIViewAnimationOptions)type boolCurrent:(BOOL)boolCurrent calendarBlock:(void(^)(NSArray *daysArr))calendarBlock {
+- (void)monthChangeMethodByType:(UIViewAnimationOptions)type boolCurrent:(BOOL)boolCurrent boolContainsTerms:(BOOL)boolContainsTerms calendarBlock:(void(^)(NSArray *daysArr))calendarBlock {
     
     static NSInteger month = 0;
     static UIViewAnimationOptions animationOption = UIViewAnimationOptionTransitionCurlUp;
@@ -431,7 +427,7 @@
     }
     month = boolCurrent ? 0 : month;
     
-    [[YXCalendarManager sharedManager] yxCalendarContainerWithNearByMonths:month boolOnlyCurrent:YES calendarBlock:^(NSArray * _Nonnull daysArr, YXCalendarBaseModel * _Nonnull baseModel) {
+    [[YXCalendarManager sharedManager] yxCalendarContainerWithNearByMonths:month boolOnlyCurrent:YES boolContainsTerms:boolContainsTerms calendarBlock:^(NSArray * _Nonnull daysArr, YXCalendarBaseModel * _Nonnull baseModel) {
         
         calendarBlock(daysArr);
     }];

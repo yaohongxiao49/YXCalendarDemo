@@ -50,7 +50,7 @@
 - (void)updateMonthMethodByMonths:(NSInteger)months {
     
     __weak typeof(self) weakSelf = self;
-    [[YXCalendarManager sharedManager] yxCalendarContainerWithNearByMonths:months boolOnlyCurrent:NO calendarBlock:^(NSArray * _Nonnull daysArr, YXCalendarBaseModel * _Nonnull baseModel) {
+    [[YXCalendarManager sharedManager] yxCalendarContainerWithNearByMonths:months boolOnlyCurrent:YES boolContainsTerms:YES calendarBlock:^(NSArray * _Nonnull daysArr, YXCalendarBaseModel * _Nonnull baseModel) {
         
         weakSelf.dataSourceArr = [[NSMutableArray alloc] initWithArray:daysArr];
         weakSelf.weeksView.model = baseModel;

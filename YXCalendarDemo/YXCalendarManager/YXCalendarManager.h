@@ -13,6 +13,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define kYXCalendarManagerLunarYear @"YXCalendarManagerLunarYear"
+#define kYXCalendarManagerLunarMonth @"YXCalendarManagerLunarMonth"
+#define kYXCalendarManagerLunarDay @"YXCalendarManagerLunarDay"
+
 @interface YXCalendarManager : NSObject
 
 /** 当前日 */
@@ -41,15 +45,17 @@ NS_ASSUME_NONNULL_BEGIN
  * 获取日历容器数据
  * @param currentTag 本月偏移值（0：当前月=本月，1：当前月=下一月，-1：当前月=上一月，........）
  * @param boolOnlyCurrent 是否只含当月
+ * @param boolContainsTerms 是否包含节气
  */
 - (void)yxCalendarContainerWithNearByMonths:(NSInteger)currentTag
                             boolOnlyCurrent:(BOOL)boolOnlyCurrent
+                          boolContainsTerms:(BOOL)boolContainsTerms
                               calendarBlock:(void(^)(NSArray *daysArr, YXCalendarBaseModel *baseModel))calendarBlock;
 
 /**
  * 组装阳历数据
  * @param dayModel 日期模型
- * @param boolContainsTerms 是否包含节假日
+ * @param boolContainsTerms 是否包含节气
  */
 - (YXCalendarDayModel *)assemblyLunarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel
                                               boolContainsTerms:(BOOL)boolContainsTerms;
@@ -60,21 +66,30 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value 指定年月日（YXCalendarYearModel，YXCalendarMonthModel，YXCalendarDayModel）
  * @param type 年月日类型
  * @param boolContainsTerms 是否包含节气
+ *
+ * @return dic{kYXCalendarManagerLunarYear:@"", kYXCalendarManagerLunarMonth:@"", kYXCalendarManagerLunarDay:@""}
  */
-- (NSString *)assemblySingleLunarModelByValue:(id)value
+- (NSDictionary *)assemblySingleLunarModelByValue:(id)value
                                          type:(YXCalendarBaseModelType)type
                             boolContainsTerms:(BOOL)boolContainsTerms;
 
-/** 获取年月日，持续时间，如1900~当前 */
-- (NSMutableArray *)assemblyDateByStartYears:(NSInteger)startYears;
+/**
+ * 获取年月日，持续时间，如1900~当前
+ * @param startYears 起始时间
+ * @param boolContainsTerms 是否包含节气
+ */
+- (NSMutableArray *)assemblyDateByStartYears:(NSInteger)startYears
+                           boolContainsTerms:(BOOL)boolContainsTerms;
 
 /**
  * 月份切换
  * @param type UIViewAnimationOptionTransitionCurlUp/UIViewAnimationOptionTransitionCurlDown 下一个月/上一个月
  * @param boolCurrent 是否是当前月
+ * @param boolContainsTerms 是否包含节气
  */
 - (void)monthChangeMethodByType:(UIViewAnimationOptions)type
                     boolCurrent:(BOOL)boolCurrent
+              boolContainsTerms:(BOOL)boolContainsTerms
                   calendarBlock:(void(^)(NSArray *daysArr))calendarBlock;
 
 @end
