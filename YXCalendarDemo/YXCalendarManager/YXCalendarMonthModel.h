@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YXCalendarMonthModel : NSObject
 
+@property (nonatomic, assign) NSInteger year;
 @property (nonatomic, assign) NSInteger month;
 @property (nonatomic, strong) NSMutableArray<YXCalendarBaseModel *> *dayArr;
 

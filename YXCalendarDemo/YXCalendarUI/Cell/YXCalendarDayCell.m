@@ -34,7 +34,7 @@
     [self bgViewBgColorByBoolSelected:dayModel.boolSelected];
     
     _lunarCalendarLab.text = [NSString stringWithFormat:@"%ld", dayModel.day];
-    YXCalendarDayModel *holidayModel = [[YXCalendarManager sharedManager] assemblySolarCalendarDayModelByDayModel:dayModel];
+    YXCalendarDayModel *holidayModel = [[YXCalendarManager sharedManager] assemblySolarCalendarDayModelByDayModel:dayModel boolContainsTerms:YES];
     _solarCalendarLab.text = holidayModel.holidayNamed ? : @"";
     
     [self titleColorByBoolCurrentMonth:dayModel.boolInCurrentMonth boolHoliday:holidayModel.boolHoliday];

@@ -46,12 +46,24 @@ NS_ASSUME_NONNULL_BEGIN
                             boolOnlyCurrent:(BOOL)boolOnlyCurrent
                               calendarBlock:(void(^)(NSArray *daysArr, YXCalendarBaseModel *baseModel))calendarBlock;
 
-/** 组装阳历数据 */
-- (YXCalendarDayModel *)assemblySolarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel;
+/**
+ * 组装阳历数据
+ * @param dayModel 日期模型
+ * @param boolContainsTerms 是否包含节假日
+ */
+- (YXCalendarDayModel *)assemblySolarCalendarDayModelByDayModel:(YXCalendarDayModel *)dayModel
+                                              boolContainsTerms:(BOOL)boolContainsTerms;
 
 
-/** 组装阳历日期 */
-- (YXCalendarDayModel *)assemblySolarDayModelByDayModel:(YXCalendarDayModel *)dayModel;
+/**
+ * 获取单个阳历数据
+ * @param value 指定年月日（YXCalendarYearModel，YXCalendarMonthModel，YXCalendarDayModel）
+ * @param type 年月日类型
+ * @param boolContainsTerms 是否包含节气
+ */
+- (NSString *)assemblySingleSolarModelByValue:(id)value
+                                         type:(YXCalendarBaseModelType)type
+                            boolContainsTerms:(BOOL)boolContainsTerms;
 
 /** 获取年月日，持续时间，如1900~当前 */
 - (NSMutableArray *)assemblyDateByStartYears:(NSInteger)startYears;
