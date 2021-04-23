@@ -9,6 +9,6 @@
 #define Prefix_h
 
 #import <Masonry/Masonry.h>
-#import "YXCalendarManager.h"
+#import "YXCalendarMergeManager.h"
 
 #endif /* Prefix_h */
