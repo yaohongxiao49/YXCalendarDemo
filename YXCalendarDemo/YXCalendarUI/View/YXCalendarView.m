@@ -37,6 +37,9 @@
     
     CGFloat height = [self getCollectionViewHeight] + CGRectGetHeight(self.weeksView.bounds);
     self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetWidth(self.bounds), height);
+    if (self.yxCalendarViewHeightBlock) {
+        self.yxCalendarViewHeightBlock(height);
+    }
 }
 
 #pragma mark - 回传高度
@@ -88,12 +91,12 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return self.dataSourceArr.count;
+    return _dataSourceArr.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     YXCalendarDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([YXCalendarDayCell class]) forIndexPath:indexPath];
-    [cell reloadValueByIndexPath:indexPath valueArr:self.dataSourceArr];
+    [cell reloadValueByIndexPath:indexPath valueArr:_dataSourceArr];
     
     return cell;
 }
@@ -126,6 +129,31 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     
     return CGSizeZero;
+}
+
+#pragma mark - setting
+- (void)setDaysArr:(NSMutableArray *)daysArr {
+    
+    _daysArr = daysArr;
+    
+    _dataSourceArr = [[NSMutableArray alloc] initWithArray:_daysArr];
+    [_dataSourceArr enumerateObjectsUsingBlock:^(YXCalendarDayModel *  _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+        NSLog(@"s == %@", model.holidayNamed);
+    }];
+    [self.collectionView reloadData];
+}
+- (void)setMonthModel:(YXCalendarMonthModel *)monthModel {
+    
+    _monthModel = monthModel;
+    
+    YXCalendarBaseModel *baseModel = [[YXCalendarBaseModel alloc] init];
+    baseModel.year = _monthModel.year;
+    baseModel.month = _monthModel.month;
+    self.weeksView.model = baseModel;
+    self.monthBgLab.text = [NSString stringWithFormat:@"%ld", _monthModel.month];
+    [self.collectionView reloadData];
+    [self layoutSubviews];
 }
 
 #pragma mark - 初始化视图

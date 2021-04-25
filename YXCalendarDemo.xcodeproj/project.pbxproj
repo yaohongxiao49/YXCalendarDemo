@@ -29,6 +29,7 @@
 		8454A3082632A3A300EADAC1 /* YXSolarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454A3072632A3A300EADAC1 /* YXSolarModel.m */; };
 		8454A30E2632A3AF00EADAC1 /* YXLunarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454A30D2632A3AF00EADAC1 /* YXLunarModel.m */; };
 		8454A3142632A42B00EADAC1 /* YXSeparationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454A3132632A42B00EADAC1 /* YXSeparationManager.m */; };
+		84F894A52635438A0027DD3E /* YXCalendarBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F894A42635438A0027DD3E /* YXCalendarBaseView.m */; };
 		D367223032086EF45C3B3AF1 /* libPods-YXCalendarDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B82B76BFF859C31B26A50C /* libPods-YXCalendarDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -97,6 +98,8 @@
 		8454A30D2632A3AF00EADAC1 /* YXLunarModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXLunarModel.m; sourceTree = "<group>"; };
 		8454A3122632A42B00EADAC1 /* YXSeparationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YXSeparationManager.h; sourceTree = "<group>"; };
 		8454A3132632A42B00EADAC1 /* YXSeparationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXSeparationManager.m; sourceTree = "<group>"; };
+		84F894A32635438A0027DD3E /* YXCalendarBaseView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YXCalendarBaseView.h; sourceTree = "<group>"; };
+		84F894A42635438A0027DD3E /* YXCalendarBaseView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXCalendarBaseView.m; sourceTree = "<group>"; };
 		97B82B76BFF859C31B26A50C /* libPods-YXCalendarDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YXCalendarDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -216,6 +219,8 @@
 			children = (
 				8419796A2623F38F003E821D /* YXWeeksView.h */,
 				8419796B2623F38F003E821D /* YXWeeksView.m */,
+				84F894A32635438A0027DD3E /* YXCalendarBaseView.h */,
+				84F894A42635438A0027DD3E /* YXCalendarBaseView.m */,
 				841979802623F81A003E821D /* YXCalendarView.h */,
 				841979812623F81A003E821D /* YXCalendarView.m */,
 			);
@@ -447,6 +452,7 @@
 				8454A2F02632A03700EADAC1 /* YXCalendarMonthModel.m in Sources */,
 				8454A2F12632A03700EADAC1 /* YXCalendarDayModel.m in Sources */,
 				841979732623F3C0003E821D /* YXCalendarDayCell.m in Sources */,
+				84F894A52635438A0027DD3E /* YXCalendarBaseView.m in Sources */,
 				8419799126242685003E821D /* YXCalendarWeeksCell.m in Sources */,
 				8454A3142632A42B00EADAC1 /* YXSeparationManager.m in Sources */,
 				841979822623F81A003E821D /* YXCalendarView.m in Sources */,

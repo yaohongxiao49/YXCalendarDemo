@@ -29,11 +29,18 @@
 }
 
 #pragma mark - 显示日历视图
-+ (void)yxShowCalendarViewByVC:(UIViewController *)vc baseView:(UIView *)baseView frame:(CGRect)frame boolShowLunarCalendar:(BOOL)boolShowLunarCalendar {
++ (void)yxShowCalendarViewByVC:(UIViewController *)vc baseView:(UIView *)baseView frame:(CGRect)frame boolShowLunarCalendar:(BOOL)boolShowLunarCalendar boolScrollView:(BOOL)boolScrollView {
     
-    YXCalendarView *calendarView = [[YXCalendarView alloc] initWithFrame:frame];
-    calendarView.boolShowLunarCalendar = boolShowLunarCalendar;
-    [baseView addSubview:calendarView];
+    if (boolScrollView) {
+        YXCalendarBaseView *calendarView = [[YXCalendarBaseView alloc] initWithFrame:frame boolShowLunarCalendar:boolShowLunarCalendar];
+        [baseView addSubview:calendarView];
+        [calendarView pointToMonthByMonth:4 year:2021];
+    }
+    else {
+        YXCalendarView *calendarView = [[YXCalendarView alloc] initWithFrame:frame];
+        calendarView.boolShowLunarCalendar = boolShowLunarCalendar;
+        [baseView addSubview:calendarView];
+    }
 }
 
 #pragma mark - 获取日历容器数据
@@ -362,48 +369,31 @@
     }
 }
 
-- (NSMutableArray *)assemblyDateByStartYears:(NSInteger)startYears boolContainsTerms:(BOOL)boolContainsTerms {
+#pragma mark - 获取年月日，持续时间，如1900~2021
+- (NSMutableArray *)assemblyDateByStartYears:(NSInteger)startYears endYears:(NSInteger)endYears boolOnlyCurrent:(BOOL)boolOnlyCurrent boolContainsTerms:(BOOL)boolContainsTerms {
     
     NSMutableArray *arr = [[NSMutableArray alloc] init];
     
-    NSInteger nowYear = [NSDate yxGetDateYear:[NSDate date]];
-    NSInteger nowMonth = [NSDate yxGetDateMonth:[NSDate date]];
+    NSInteger currentYear = [NSDate yxGetDateYear:[NSDate date]];
+    NSInteger currentMonth = [NSDate yxGetDateMonth:[NSDate date]];
     
-    for (NSInteger i = nowYear; i >= startYears; i --) {
+    for (NSInteger i = endYears; i >= startYears; i --) {
         YXCalendarYearModel *yearModel = [[YXCalendarYearModel alloc] init];
         yearModel.year = i;
         
         NSMutableArray *monthArr = [[NSMutableArray alloc] init];
-        if (i == nowYear) {
-            for (NSInteger j = nowMonth; j >= 1; j --) {
-                YXCalendarMonthModel *monthModel = [[YXCalendarMonthModel alloc] init];
-                monthModel.year = i;
-                monthModel.month = j;
+        for (NSInteger j = 12; j >= 1; j --) {
+            YXCalendarMonthModel *monthModel = [[YXCalendarMonthModel alloc] init];
+            monthModel.year = i;
+            monthModel.month = j;
+            
+            NSMutableArray *dayArr = [[NSMutableArray alloc] init];
+            [self monthChangeMethodByYear:i month:j currentYear:currentYear currentMonth:currentMonth boolOnlyCurrent:boolOnlyCurrent boolContainsTerms:boolContainsTerms calendarBlock:^(NSArray * _Nonnull daysArr) {
                 
-                NSMutableArray *dayArr = [[NSMutableArray alloc] init];
-                
-                [self monthChangeMethodByType:UIViewAnimationOptionTransitionCurlDown boolCurrent:(j == nowMonth) boolContainsTerms:boolContainsTerms calendarBlock:^(NSArray *daysArr) {
-                    
-                    [dayArr addObjectsFromArray:daysArr];
-                    monthModel.dayArr = dayArr;
-                    [monthArr insertObject:monthModel atIndex:0];
-                }];
-            }
-        }
-        else {
-            for (NSInteger j = 12; j >= 1; j --) {
-                YXCalendarMonthModel *monthModel = [[YXCalendarMonthModel alloc] init];
-                monthModel.year = i;
-                monthModel.month = j;
-                
-                NSMutableArray *dayArr = [[NSMutableArray alloc] init];
-                [self monthChangeMethodByType:UIViewAnimationOptionTransitionCurlDown boolCurrent:NO boolContainsTerms:boolContainsTerms calendarBlock:^(NSArray *daysArr) {
-                    
-                    [dayArr addObjectsFromArray:daysArr];
-                    monthModel.dayArr = dayArr;
-                    [monthArr insertObject:monthModel atIndex:0];
-                }];
-            }
+                [dayArr addObjectsFromArray:daysArr];
+                monthModel.dayArr = dayArr;
+                [monthArr insertObject:monthModel atIndex:0];
+            }];
         }
         yearModel.monthArr = monthArr;
         [arr insertObject:yearModel atIndex:0];
@@ -412,8 +402,8 @@
     return arr;
 }
 
-#pragma mark - 月份切换
-- (void)monthChangeMethodByType:(UIViewAnimationOptions)type boolCurrent:(BOOL)boolCurrent boolContainsTerms:(BOOL)boolContainsTerms calendarBlock:(void(^)(NSArray *daysArr))calendarBlock {
+#pragma mark - 月份切换(只适合从当前月开始往前推移)
+- (void)monthChangeMethodByType:(UIViewAnimationOptions)type boolCurrent:(BOOL)boolCurrent boolOnlyCurrent:(BOOL)boolOnlyCurrent boolContainsTerms:(BOOL)boolContainsTerms calendarBlock:(void(^)(NSArray *daysArr))calendarBlock {
     
     static NSInteger month = 0;
     static UIViewAnimationOptions animationOption = UIViewAnimationOptionTransitionCurlUp;
@@ -427,7 +417,21 @@
     }
     month = boolCurrent ? 0 : month;
     
-    [[YXCalendarMergeManager sharedManager] yxCalendarContainerWithNearByMonths:month boolOnlyCurrent:YES boolContainsTerms:boolContainsTerms calendarBlock:^(NSArray * _Nonnull daysArr, YXCalendarBaseModel * _Nonnull baseModel) {
+    [[YXCalendarMergeManager sharedManager] yxCalendarContainerWithNearByMonths:month boolOnlyCurrent:boolOnlyCurrent boolContainsTerms:boolContainsTerms calendarBlock:^(NSArray * _Nonnull daysArr, YXCalendarBaseModel * _Nonnull baseModel) {
+        
+        calendarBlock(daysArr);
+    }];
+}
+
+#pragma mark - 月份切换(可指定开始结束年月)
+- (void)monthChangeMethodByYear:(NSInteger)year month:(NSInteger)month currentYear:(NSInteger)currentYear currentMonth:(NSInteger)currentMonth boolOnlyCurrent:(BOOL)boolOnlyCurrent boolContainsTerms:(BOOL)boolContainsTerms calendarBlock:(void(^)(NSArray *daysArr))calendarBlock {
+    
+    NSString *currentMonthStr = currentMonth >= 10 ? [NSString stringWithFormat:@"%@", @(currentMonth)] : [NSString stringWithFormat:@"0%@", @(currentMonth)];
+    NSString *monthStr = month >= 10 ? [NSString stringWithFormat:@"%@", @(month)] : [NSString stringWithFormat:@"0%@", @(month)];
+    
+    NSInteger yearBetween = year - currentYear;
+    NSInteger between = yearBetween == 0 ? [[NSString stringWithFormat:@"%@", monthStr] integerValue] - [[NSString stringWithFormat:@"%@", currentMonthStr] integerValue] : yearBetween *12 + ([[NSString stringWithFormat:@"%@", monthStr] integerValue] - [[NSString stringWithFormat:@"%@", currentMonthStr] integerValue]);
+    [[YXCalendarMergeManager sharedManager] yxCalendarContainerWithNearByMonths:between boolOnlyCurrent:boolOnlyCurrent boolContainsTerms:boolContainsTerms calendarBlock:^(NSArray * _Nonnull daysArr, YXCalendarBaseModel * _Nonnull baseModel) {
         
         calendarBlock(daysArr);
     }];

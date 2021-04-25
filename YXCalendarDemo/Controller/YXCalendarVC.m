@@ -20,7 +20,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBar.hidden = YES;
 
-    [YXCalendarMergeManager yxShowCalendarViewByVC:self baseView:self.view frame:CGRectMake(10, 100, [[UIScreen mainScreen] bounds].size.width - 20, [[UIScreen mainScreen] bounds].size.height - 200) boolShowLunarCalendar:YES];
+    [YXCalendarMergeManager yxShowCalendarViewByVC:self baseView:self.view frame:CGRectMake(10, 100, [[UIScreen mainScreen] bounds].size.width - 20, [[UIScreen mainScreen] bounds].size.height - 200) boolShowLunarCalendar:YES boolScrollView:YES];
 }
 
 @end
