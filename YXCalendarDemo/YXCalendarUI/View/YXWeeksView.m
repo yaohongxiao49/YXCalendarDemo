@@ -81,11 +81,11 @@
 }
 
 #pragma mark - setting
-- (void)setModel:(YXCalendarBaseModel *)model {
+- (void)setMonthModel:(YXCalendarMonthModel *)monthModel {
     
-    _model = model;
+    _monthModel = monthModel;
     
-    [self.yearsBtn setTitle:[NSString stringWithFormat:@"%ld", _model.year] forState:UIControlStateNormal];
+    [self.yearsBtn setTitle:[NSString stringWithFormat:@"%ld", _monthModel.year] forState:UIControlStateNormal];
 }
 
 #pragma mark - 初始化视图
@@ -118,7 +118,7 @@
         [_lastMonthBtn setTitle:@"上一月" forState:UIControlStateNormal];
         [_lastMonthBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _lastMonthBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-        _lastMonthBtn.tag = MonthChangeBtnTypeLast;
+        _lastMonthBtn.tag = YXCalendarMonthTypeLast;
         [_lastMonthBtn addTarget:self action:@selector(progressMonthChangeBtn:) forControlEvents:UIControlEventTouchUpInside];
         [self.monthBgView addSubview:_lastMonthBtn];
         
@@ -138,7 +138,7 @@
         [_yearsBtn setTitle:@"2020" forState:UIControlStateNormal];
         [_yearsBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _yearsBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-        _yearsBtn.tag = MonthChangeBtnTypeYear;
+        _yearsBtn.tag = YXCalendarMonthTypeCurrent;
         [_yearsBtn addTarget:self action:@selector(progressMonthChangeBtn:) forControlEvents:UIControlEventTouchUpInside];
         [self.monthBgView addSubview:_yearsBtn];
         
@@ -158,7 +158,7 @@
         [_nextMonthBtn setTitle:@"下一月" forState:UIControlStateNormal];
         [_nextMonthBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _nextMonthBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-        _nextMonthBtn.tag = MonthChangeBtnTypeNext;
+        _nextMonthBtn.tag = YXCalendarMonthTypeNext;
         [_nextMonthBtn addTarget:self action:@selector(progressMonthChangeBtn:) forControlEvents:UIControlEventTouchUpInside];
         [self.monthBgView addSubview:_nextMonthBtn];
         

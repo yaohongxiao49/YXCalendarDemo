@@ -9,21 +9,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/** 月份切换类型枚举 */
-typedef NS_ENUM(NSUInteger, MonthChangeBtnType) {
-    /** 上一月 */
-    MonthChangeBtnTypeLast,
-    /** 年 */
-    MonthChangeBtnTypeYear,
-    /** 下一月 */
-    MonthChangeBtnTypeNext,
-};
-
-typedef void(^YXWeeksViewMonthBlock)(MonthChangeBtnType type);
+typedef void(^YXWeeksViewMonthBlock)(YXCalendarMonthType type);
 
 @interface YXWeeksView : UIView
 
-@property (nonatomic, copy) YXCalendarBaseModel *model;
+@property (nonatomic, copy) YXCalendarMonthModel *monthModel;
 
 @property (nonatomic, copy) YXWeeksViewMonthBlock yxWeeksViewMonthBlock;
 

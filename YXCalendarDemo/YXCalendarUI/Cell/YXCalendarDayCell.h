@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YXCalendarDayCell : UICollectionViewCell
 
-- (void)reloadValueByIndexPath:(NSIndexPath *)indexPath valueArr:(NSMutableArray *)valueArr;
+- (void)reloadValueByIndexPath:(NSIndexPath *)indexPath valueArr:(NSMutableArray *)valueArr boolShowLunarCalendar:(BOOL)boolShowLunarCalendar;
 
 @end
 

@@ -26,7 +26,7 @@
     return self;
 }
 
-- (void)reloadValueByIndexPath:(NSIndexPath *)indexPath valueArr:(NSMutableArray *)valueArr {
+- (void)reloadValueByIndexPath:(NSIndexPath *)indexPath valueArr:(NSMutableArray *)valueArr boolShowLunarCalendar:(BOOL)boolShowLunarCalendar {
     
     YXCalendarDayModel *dayModel = valueArr[indexPath.row];
     
@@ -34,10 +34,10 @@
     [self bgViewBgColorByBoolSelected:dayModel.boolSelected];
     
     self.solarCalendarLab.text = [NSString stringWithFormat:@"%ld", dayModel.day];
-    YXCalendarDayModel *holidayModel = [[YXCalendarMergeManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:YES];
+    YXCalendarDayModel *holidayModel = [[YXCalendarMergeManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolShowLunarCalendar];
     self.lunarCalendarLab.text = holidayModel.holidayNamed ? : @"";
     
-    [self titleColorByBoolCurrentMonth:dayModel.boolInCurrentMonth boolHoliday:holidayModel.boolHoliday];
+    [self titleColorByBoolCurrentMonth:dayModel.monthType == YXCalendarMonthTypeCurrent boolHoliday:boolShowLunarCalendar ? holidayModel.boolHoliday : NO];
 }
 
 #pragma mark - 背景视图边框变化

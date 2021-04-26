@@ -31,16 +31,9 @@
 #pragma mark - 显示日历视图
 + (void)yxShowCalendarViewByVC:(UIViewController *)vc baseView:(UIView *)baseView frame:(CGRect)frame boolShowLunarCalendar:(BOOL)boolShowLunarCalendar boolScrollView:(BOOL)boolScrollView {
     
-    if (boolScrollView) {
-        YXCalendarBaseView *calendarView = [[YXCalendarBaseView alloc] initWithFrame:frame boolShowLunarCalendar:boolShowLunarCalendar];
-        [baseView addSubview:calendarView];
-        [calendarView pointToMonthByMonth:4 year:2021];
-    }
-    else {
-        YXCalendarView *calendarView = [[YXCalendarView alloc] initWithFrame:frame];
-        calendarView.boolShowLunarCalendar = boolShowLunarCalendar;
-        [baseView addSubview:calendarView];
-    }
+    YXCalendarBaseView *calendarView = [[YXCalendarBaseView alloc] initWithFrame:frame boolShowLunarCalendar:boolShowLunarCalendar boolScrollView:boolScrollView];
+    [baseView addSubview:calendarView];
+    [calendarView pointToMonthByMonth:4 year:2021];
 }
 
 #pragma mark - 获取日历容器数据
@@ -69,7 +62,7 @@
             dayModel.year = firstModel.year;
             dayModel.month = firstModel.month;
             dayModel.day = firstModel.totalDays - showLastMonthDays + index + 1;
-            dayModel.boolInCurrentMonth = NO;
+            dayModel.monthType = YXCalendarMonthTypeLast;
             dayModel.boolCurrentDay = NO;
             dayModel.boolSelected = NO;
             YXCalendarDayModel *endDayModel = [[YXCalendarMergeManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];
@@ -81,7 +74,7 @@
             dayModel.year = currentModel.year;
             dayModel.month = currentModel.month;
             dayModel.day = index + 1;
-            dayModel.boolInCurrentMonth = YES;
+            dayModel.monthType = YXCalendarMonthTypeCurrent;
             dayModel.boolCurrentDay = [self yxJudgetCurrentDayNowMonth:dayModel];
             dayModel.boolSelected = dayModel.boolCurrentDay;
             YXCalendarDayModel *endDayModel = [[YXCalendarMergeManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];
@@ -93,7 +86,7 @@
             dayModel.year = lastModel.year;
             dayModel.month = lastModel.month;
             dayModel.day = index + 1;
-            dayModel.boolInCurrentMonth = NO;
+            dayModel.monthType = YXCalendarMonthTypeNext;
             dayModel.boolCurrentDay = NO;
             dayModel.boolSelected = NO;
             YXCalendarDayModel *endDayModel = [[YXCalendarMergeManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];
@@ -106,7 +99,7 @@
             dayModel.year = currentModel.year;
             dayModel.month = currentModel.month;
             dayModel.day = index + 1;
-            dayModel.boolInCurrentMonth = YES;
+            dayModel.monthType = YXCalendarMonthTypeCurrent;
             dayModel.boolCurrentDay = [self yxJudgetCurrentDayNowMonth:dayModel];
             dayModel.boolSelected = dayModel.boolCurrentDay;
             YXCalendarDayModel *endDayModel = [[YXCalendarMergeManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];

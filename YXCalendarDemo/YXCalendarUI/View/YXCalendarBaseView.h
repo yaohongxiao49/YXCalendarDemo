@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YXCalendarBaseView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame boolShowLunarCalendar:(BOOL)boolShowLunarCalendar;
+- (instancetype)initWithFrame:(CGRect)frame boolShowLunarCalendar:(BOOL)boolShowLunarCalendar boolScrollView:(BOOL)boolScrolView;
 
 /** 指定显示数据 */
 - (void)pointToMonthByMonth:(NSInteger)month year:(NSInteger)year;

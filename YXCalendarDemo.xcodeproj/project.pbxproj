@@ -217,10 +217,10 @@
 		8419792C2623F0A8003E821D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				8419796A2623F38F003E821D /* YXWeeksView.h */,
-				8419796B2623F38F003E821D /* YXWeeksView.m */,
 				84F894A32635438A0027DD3E /* YXCalendarBaseView.h */,
 				84F894A42635438A0027DD3E /* YXCalendarBaseView.m */,
+				8419796A2623F38F003E821D /* YXWeeksView.h */,
+				8419796B2623F38F003E821D /* YXWeeksView.m */,
 				841979802623F81A003E821D /* YXCalendarView.h */,
 				841979812623F81A003E821D /* YXCalendarView.m */,
 			);
