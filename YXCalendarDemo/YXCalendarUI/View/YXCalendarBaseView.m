@@ -165,13 +165,6 @@
         }
         i++;
     }
-    
-    YXCalendarView *view = _calendarViewArr.count == 0 ? nil : _calendarViewArr.count > 1 ? _calendarViewArr[1] : _calendarViewArr[0];
-    __weak typeof(self) weakSelf = self;
-    view.yxCalendarViewHeightBlock = ^(CGFloat height) {
-        
-        weakSelf.scrollView.frame = CGRectMake(0, 0, CGRectGetWidth(weakSelf.scrollView.frame), height);
-    };
 }
 
 #pragma mark - <UIScrollViewDelegate>
@@ -209,6 +202,17 @@
     }
     
     [self getCalendarArr];
+    
+    __weak typeof(self) weakSelf = self;
+    YXCalendarView *view3 = _calendarViewArr[2];
+    view3.yxCalendarViewHeightBlock = ^(CGFloat height) {
+        
+        [weakSelf.scrollView mas_remakeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.and.top.and.right.equalTo(self);
+            make.height.mas_equalTo(height);
+        }];
+    };
 }
 
 #pragma mark - 懒加载
@@ -226,7 +230,8 @@
         
         [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
            
-            make.edges.equalTo(self);
+            make.left.and.top.and.right.equalTo(self);
+            make.height.mas_equalTo(self.mas_height);
         }];
         
         [_scrollView setNeedsLayout];

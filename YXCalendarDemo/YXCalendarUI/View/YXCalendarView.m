@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UILabel *monthBgLab;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataSourceArr;
+@property (nonatomic, assign) CGFloat originalHeight;
 
 @end
 
@@ -36,9 +37,13 @@
     [super layoutSubviews];
     
     CGFloat height = [self getCollectionViewHeight] + CGRectGetHeight(self.weeksView.bounds);
-    self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetWidth(self.bounds), height);
-    if (self.yxCalendarViewHeightBlock) {
-        self.yxCalendarViewHeightBlock(height);
+    if (height != _originalHeight) {
+//        self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetWidth(self.bounds), height);
+        if (self.yxCalendarViewHeightBlock) {
+            NSLog(@"height == %@", @(height));
+            self.yxCalendarViewHeightBlock(height);
+        }
+        _originalHeight = height;
     }
 }
 
@@ -137,10 +142,6 @@
     _daysArr = daysArr;
     
     _dataSourceArr = [[NSMutableArray alloc] initWithArray:_daysArr];
-    [_dataSourceArr enumerateObjectsUsingBlock:^(YXCalendarDayModel *  _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-        NSLog(@"s == %@", model.holidayNamed);
-    }];
     [self.collectionView reloadData];
 }
 - (void)setMonthModel:(YXCalendarMonthModel *)monthModel {
