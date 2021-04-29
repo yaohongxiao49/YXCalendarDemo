@@ -41,10 +41,26 @@
     
     CGFloat height = [self getCollectionViewHeight];
     if (height != _originalHeight) {
+        [self.monthBgLab mas_updateConstraints:^(MASConstraintMaker *make) {
+           
+            make.height.mas_equalTo(height);
+        }];
+        
         return height;
     }
     _originalHeight = height;
     return 0;
+}
+
+#pragma mark - 获取选中行
+- (void)getSelectedByIndexPath:(NSIndexPath *)indexPath arr:(NSMutableArray *)arr {
+    
+    if (self.yxCalendarDayViewSelectedBlock) {
+        YXCalendarDayModel *blockDayModel = [[YXCalendarDayModel alloc] init];
+        NSInteger index = indexPath.row;
+        blockDayModel = arr[index];
+        self.yxCalendarDayViewSelectedBlock(blockDayModel);
+    }
 }
 
 #pragma mark - <UICollectionViewDataSource, UICollectionViewDelegate>
@@ -65,17 +81,7 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSInteger idx = 0;
-    for (YXCalendarDayModel *dayModel in self.dataSourceArr) {
-        dayModel.boolSelected = idx == indexPath.row ? YES : NO;
-        idx++;
-    }
-    [collectionView reloadData];
-    
-    if (self.yxCalendarDayViewSelectedBlock) {
-        YXCalendarDayModel *dayModel = self.dataSourceArr[indexPath.row];
-        self.yxCalendarDayViewSelectedBlock(dayModel);
-    }
+    [self getSelectedByIndexPath:indexPath arr:_dataSourceArr];
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -106,7 +112,6 @@
     
     _dataSourceArr = [[NSMutableArray alloc] initWithArray:_daysArr];
     [self.collectionView reloadData];
-    [self layoutSubviews];
 }
 - (void)setMonthModel:(YXCalendarMonthModel *)monthModel {
     
@@ -152,11 +157,12 @@
         _monthBgLab.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:200 /2550.f];
         _monthBgLab.font = [UIFont systemFontOfSize:150.0f weight:120.f];
         _monthBgLab.textAlignment = NSTextAlignmentCenter;
-        [self.collectionView insertSubview:_monthBgLab atIndex:0];
+        [self insertSubview:_monthBgLab atIndex:0];
         
         [_monthBgLab mas_makeConstraints:^(MASConstraintMaker *make) {
            
-            make.edges.equalTo(self.collectionView);
+            make.top.and.right.and.left.equalTo(self.collectionView);
+            make.height.mas_equalTo(CGRectGetHeight(self.bounds));
         }];
     }
     return _monthBgLab;

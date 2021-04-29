@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TYAlertController.h"
 #import "YXCalendarBaseModel.h"
 #import "YXCalendarYearModel.h"
 #import "NSDate+YXCalendar.h"
@@ -35,12 +36,21 @@ NS_ASSUME_NONNULL_BEGIN
  * @param vc 父控制器
  * @param baseView 父视图
  * @param frame 坐标尺寸
+ * @param startYear 起始年（默认为1900）
+ * @param endYear 结束年（默认为当前年）
+ * @param boolOnlyCurrent 是否只显示当月
  * @param boolShowLunarCalendar 是否显示农历
+ * @param boolContainsTerms 是否显示节日（前置是显示农历）
+ * @param boolScrollView 是否可以滚动切换
  */
 + (void)yxShowCalendarViewByVC:(UIViewController *)vc
                       baseView:(UIView *)baseView
                          frame:(CGRect)frame
+                     startYear:(NSInteger)startYear
+                       endYear:(NSInteger)endYear
+               boolOnlyCurrent:(BOOL)boolOnlyCurrent
          boolShowLunarCalendar:(BOOL)boolShowLunarCalendar
+             boolContainsTerms:(BOOL)boolContainsTerms
                 boolScrollView:(BOOL)boolScrollView;
 
 /**

@@ -10,5 +10,6 @@
 
 #import <Masonry/Masonry.h>
 #import "YXCalendarMergeManager.h"
+#import "YXSeparationManager.h"
 
 #endif /* Prefix_h */

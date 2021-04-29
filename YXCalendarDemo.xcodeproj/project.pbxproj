@@ -25,10 +25,20 @@
 		8454A2F02632A03700EADAC1 /* YXCalendarMonthModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454A2EB2632A03700EADAC1 /* YXCalendarMonthModel.m */; };
 		8454A2F12632A03700EADAC1 /* YXCalendarDayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454A2EC2632A03700EADAC1 /* YXCalendarDayModel.m */; };
 		8454A2F22632A03700EADAC1 /* YXCalendarYearModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454A2ED2632A03700EADAC1 /* YXCalendarYearModel.m */; };
-		8454A3022632A31500EADAC1 /* YXCalendarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454A3012632A31500EADAC1 /* YXCalendarManager.m */; };
 		8454A3082632A3A300EADAC1 /* YXSolarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454A3072632A3A300EADAC1 /* YXSolarModel.m */; };
 		8454A30E2632A3AF00EADAC1 /* YXLunarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454A30D2632A3AF00EADAC1 /* YXLunarModel.m */; };
 		8454A3142632A42B00EADAC1 /* YXSeparationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454A3132632A42B00EADAC1 /* YXSeparationManager.m */; };
+		84961757263A808D008C5E4A /* YXDateAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84961756263A808D008C5E4A /* YXDateAlertView.m */; };
+		8496176F263A8EA3008C5E4A /* TYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8496175C263A8EA3008C5E4A /* TYAlertView.m */; };
+		84961770263A8EA3008C5E4A /* UIView+TYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84961760263A8EA3008C5E4A /* UIView+TYAlertView.m */; };
+		84961771263A8EA3008C5E4A /* TYAlertScaleFadeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 84961761263A8EA3008C5E4A /* TYAlertScaleFadeAnimation.m */; };
+		84961772263A8EA3008C5E4A /* TYAlertFadeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 84961763263A8EA3008C5E4A /* TYAlertFadeAnimation.m */; };
+		84961773263A8EA3008C5E4A /* TYAlertController+TransitionAnimate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84961764263A8EA3008C5E4A /* TYAlertController+TransitionAnimate.m */; };
+		84961774263A8EA3008C5E4A /* UIView+TYAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 84961766263A8EA3008C5E4A /* UIView+TYAutoLayout.m */; };
+		84961775263A8EA3008C5E4A /* TYAlertDropDownAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 84961767263A8EA3008C5E4A /* TYAlertDropDownAnimation.m */; };
+		84961776263A8EA3008C5E4A /* TYShowAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8496176A263A8EA3008C5E4A /* TYShowAlertView.m */; };
+		84961777263A8EA3008C5E4A /* TYBaseAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8496176B263A8EA3008C5E4A /* TYBaseAnimation.m */; };
+		84961778263A8EA3008C5E4A /* TYAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8496176D263A8EA3008C5E4A /* TYAlertController.m */; };
 		84F894A52635438A0027DD3E /* YXCalendarBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F894A42635438A0027DD3E /* YXCalendarBaseView.m */; };
 		D367223032086EF45C3B3AF1 /* libPods-YXCalendarDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B82B76BFF859C31B26A50C /* libPods-YXCalendarDemo.a */; };
 /* End PBXBuildFile section */
@@ -90,14 +100,33 @@
 		8454A2EB2632A03700EADAC1 /* YXCalendarMonthModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YXCalendarMonthModel.m; sourceTree = "<group>"; };
 		8454A2EC2632A03700EADAC1 /* YXCalendarDayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YXCalendarDayModel.m; sourceTree = "<group>"; };
 		8454A2ED2632A03700EADAC1 /* YXCalendarYearModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YXCalendarYearModel.m; sourceTree = "<group>"; };
-		8454A3002632A31500EADAC1 /* YXCalendarManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YXCalendarManager.h; sourceTree = "<group>"; };
-		8454A3012632A31500EADAC1 /* YXCalendarManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXCalendarManager.m; sourceTree = "<group>"; };
 		8454A3062632A3A300EADAC1 /* YXSolarModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YXSolarModel.h; sourceTree = "<group>"; };
 		8454A3072632A3A300EADAC1 /* YXSolarModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXSolarModel.m; sourceTree = "<group>"; };
 		8454A30C2632A3AF00EADAC1 /* YXLunarModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YXLunarModel.h; sourceTree = "<group>"; };
 		8454A30D2632A3AF00EADAC1 /* YXLunarModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXLunarModel.m; sourceTree = "<group>"; };
 		8454A3122632A42B00EADAC1 /* YXSeparationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YXSeparationManager.h; sourceTree = "<group>"; };
 		8454A3132632A42B00EADAC1 /* YXSeparationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXSeparationManager.m; sourceTree = "<group>"; };
+		84961755263A808D008C5E4A /* YXDateAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YXDateAlertView.h; sourceTree = "<group>"; };
+		84961756263A808D008C5E4A /* YXDateAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXDateAlertView.m; sourceTree = "<group>"; };
+		8496175C263A8EA3008C5E4A /* TYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYAlertView.m; sourceTree = "<group>"; };
+		8496175D263A8EA3008C5E4A /* TYAlertDropDownAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYAlertDropDownAnimation.h; sourceTree = "<group>"; };
+		8496175E263A8EA3008C5E4A /* UIView+TYAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+TYAutoLayout.h"; sourceTree = "<group>"; };
+		8496175F263A8EA3008C5E4A /* TYShowAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYShowAlertView.h; sourceTree = "<group>"; };
+		84961760263A8EA3008C5E4A /* UIView+TYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+TYAlertView.m"; sourceTree = "<group>"; };
+		84961761263A8EA3008C5E4A /* TYAlertScaleFadeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYAlertScaleFadeAnimation.m; sourceTree = "<group>"; };
+		84961762263A8EA3008C5E4A /* TYBaseAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYBaseAnimation.h; sourceTree = "<group>"; };
+		84961763263A8EA3008C5E4A /* TYAlertFadeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYAlertFadeAnimation.m; sourceTree = "<group>"; };
+		84961764263A8EA3008C5E4A /* TYAlertController+TransitionAnimate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TYAlertController+TransitionAnimate.m"; sourceTree = "<group>"; };
+		84961765263A8EA3008C5E4A /* TYAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYAlertController.h; sourceTree = "<group>"; };
+		84961766263A8EA3008C5E4A /* UIView+TYAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+TYAutoLayout.m"; sourceTree = "<group>"; };
+		84961767263A8EA3008C5E4A /* TYAlertDropDownAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYAlertDropDownAnimation.m; sourceTree = "<group>"; };
+		84961768263A8EA3008C5E4A /* TYAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYAlertView.h; sourceTree = "<group>"; };
+		84961769263A8EA3008C5E4A /* UIView+TYAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+TYAlertView.h"; sourceTree = "<group>"; };
+		8496176A263A8EA3008C5E4A /* TYShowAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYShowAlertView.m; sourceTree = "<group>"; };
+		8496176B263A8EA3008C5E4A /* TYBaseAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYBaseAnimation.m; sourceTree = "<group>"; };
+		8496176C263A8EA3008C5E4A /* TYAlertScaleFadeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYAlertScaleFadeAnimation.h; sourceTree = "<group>"; };
+		8496176D263A8EA3008C5E4A /* TYAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYAlertController.m; sourceTree = "<group>"; };
+		8496176E263A8EA3008C5E4A /* TYAlertFadeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYAlertFadeAnimation.h; sourceTree = "<group>"; };
 		84F894A32635438A0027DD3E /* YXCalendarBaseView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YXCalendarBaseView.h; sourceTree = "<group>"; };
 		84F894A42635438A0027DD3E /* YXCalendarBaseView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YXCalendarBaseView.m; sourceTree = "<group>"; };
 		97B82B76BFF859C31B26A50C /* libPods-YXCalendarDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YXCalendarDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -199,6 +228,7 @@
 		8419792A2623F0A8003E821D /* YXCalendarUI */ = {
 			isa = PBXGroup;
 			children = (
+				8496175B263A8EA3008C5E4A /* TYAlertController */,
 				8419792C2623F0A8003E821D /* View */,
 				841979702623F3A8003E821D /* Cell */,
 			);
@@ -223,6 +253,8 @@
 				8419796B2623F38F003E821D /* YXWeeksView.m */,
 				841979802623F81A003E821D /* YXCalendarView.h */,
 				841979812623F81A003E821D /* YXCalendarView.m */,
+				84961755263A808D008C5E4A /* YXDateAlertView.h */,
+				84961756263A808D008C5E4A /* YXDateAlertView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -232,8 +264,6 @@
 			children = (
 				8454A2F62632A07600EADAC1 /* YXCalendarSeparationModel */,
 				8454A2E32632A03700EADAC1 /* YXCalenderMergeModel */,
-				8454A3002632A31500EADAC1 /* YXCalendarManager.h */,
-				8454A3012632A31500EADAC1 /* YXCalendarManager.m */,
 			);
 			path = YXCalendarManager;
 			sourceTree = "<group>";
@@ -271,14 +301,40 @@
 		8454A2F62632A07600EADAC1 /* YXCalendarSeparationModel */ = {
 			isa = PBXGroup;
 			children = (
+				8454A3122632A42B00EADAC1 /* YXSeparationManager.h */,
+				8454A3132632A42B00EADAC1 /* YXSeparationManager.m */,
 				8454A3062632A3A300EADAC1 /* YXSolarModel.h */,
 				8454A3072632A3A300EADAC1 /* YXSolarModel.m */,
 				8454A30C2632A3AF00EADAC1 /* YXLunarModel.h */,
 				8454A30D2632A3AF00EADAC1 /* YXLunarModel.m */,
-				8454A3122632A42B00EADAC1 /* YXSeparationManager.h */,
-				8454A3132632A42B00EADAC1 /* YXSeparationManager.m */,
 			);
 			path = YXCalendarSeparationModel;
+			sourceTree = "<group>";
+		};
+		8496175B263A8EA3008C5E4A /* TYAlertController */ = {
+			isa = PBXGroup;
+			children = (
+				84961765263A8EA3008C5E4A /* TYAlertController.h */,
+				8496176D263A8EA3008C5E4A /* TYAlertController.m */,
+				84961764263A8EA3008C5E4A /* TYAlertController+TransitionAnimate.m */,
+				8496175D263A8EA3008C5E4A /* TYAlertDropDownAnimation.h */,
+				84961767263A8EA3008C5E4A /* TYAlertDropDownAnimation.m */,
+				8496176E263A8EA3008C5E4A /* TYAlertFadeAnimation.h */,
+				84961763263A8EA3008C5E4A /* TYAlertFadeAnimation.m */,
+				8496176C263A8EA3008C5E4A /* TYAlertScaleFadeAnimation.h */,
+				84961761263A8EA3008C5E4A /* TYAlertScaleFadeAnimation.m */,
+				84961768263A8EA3008C5E4A /* TYAlertView.h */,
+				8496175C263A8EA3008C5E4A /* TYAlertView.m */,
+				84961762263A8EA3008C5E4A /* TYBaseAnimation.h */,
+				8496176B263A8EA3008C5E4A /* TYBaseAnimation.m */,
+				8496175F263A8EA3008C5E4A /* TYShowAlertView.h */,
+				8496176A263A8EA3008C5E4A /* TYShowAlertView.m */,
+				84961769263A8EA3008C5E4A /* UIView+TYAlertView.h */,
+				84961760263A8EA3008C5E4A /* UIView+TYAlertView.m */,
+				8496175E263A8EA3008C5E4A /* UIView+TYAutoLayout.h */,
+				84961766263A8EA3008C5E4A /* UIView+TYAutoLayout.m */,
+			);
+			path = TYAlertController;
 			sourceTree = "<group>";
 		};
 		91B18F16EBE0E2EF407D0AFA /* Frameworks */ = {
@@ -444,21 +500,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84961777263A8EA3008C5E4A /* TYBaseAnimation.m in Sources */,
+				84961771263A8EA3008C5E4A /* TYAlertScaleFadeAnimation.m in Sources */,
 				8454A2EE2632A03700EADAC1 /* YXCalendarBaseModel.m in Sources */,
+				84961778263A8EA3008C5E4A /* TYAlertController.m in Sources */,
+				84961775263A8EA3008C5E4A /* TYAlertDropDownAnimation.m in Sources */,
 				8454A2F22632A03700EADAC1 /* YXCalendarYearModel.m in Sources */,
 				841979302623F113003E821D /* YXCalendarMergeManager.m in Sources */,
 				8419796C2623F38F003E821D /* YXWeeksView.m in Sources */,
 				841979662623F33D003E821D /* YXCalendarVC.m in Sources */,
 				8454A2F02632A03700EADAC1 /* YXCalendarMonthModel.m in Sources */,
 				8454A2F12632A03700EADAC1 /* YXCalendarDayModel.m in Sources */,
+				84961774263A8EA3008C5E4A /* UIView+TYAutoLayout.m in Sources */,
 				841979732623F3C0003E821D /* YXCalendarDayCell.m in Sources */,
 				84F894A52635438A0027DD3E /* YXCalendarBaseView.m in Sources */,
+				84961772263A8EA3008C5E4A /* TYAlertFadeAnimation.m in Sources */,
+				84961776263A8EA3008C5E4A /* TYShowAlertView.m in Sources */,
 				8419799126242685003E821D /* YXCalendarWeeksCell.m in Sources */,
 				8454A3142632A42B00EADAC1 /* YXSeparationManager.m in Sources */,
+				84961770263A8EA3008C5E4A /* UIView+TYAlertView.m in Sources */,
+				84961773263A8EA3008C5E4A /* TYAlertController+TransitionAnimate.m in Sources */,
 				841979822623F81A003E821D /* YXCalendarView.m in Sources */,
+				84961757263A808D008C5E4A /* YXDateAlertView.m in Sources */,
+				8496176F263A8EA3008C5E4A /* TYAlertView.m in Sources */,
 				8454A2EF2632A03700EADAC1 /* NSDate+YXCalendar.m in Sources */,
 				841978CB2623EE4C003E821D /* AppDelegate.m in Sources */,
-				8454A3022632A31500EADAC1 /* YXCalendarManager.m in Sources */,
 				8454A30E2632A3AF00EADAC1 /* YXLunarModel.m in Sources */,
 				841978DC2623EE4D003E821D /* main.m in Sources */,
 				8454A3082632A3A300EADAC1 /* YXSolarModel.m in Sources */,

@@ -7,29 +7,42 @@
 
 #import "YXCalendarBaseView.h"
 #import "YXWeeksView.h"
+#import "YXDateAlertView.h"
 
 @interface YXCalendarBaseView () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) YXWeeksView *weeksView;
+@property (nonatomic, strong) YXDateAlertView *dateAlertView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *baseView;
 @property (nonatomic, strong) NSMutableArray *calendarViewArr;
 @property (nonatomic, strong) NSMutableArray *originalCalendarValueArr;
 @property (nonatomic, strong) NSMutableArray *calendarValueArr;
+
+@property (nonatomic, weak) UIViewController *baseVC;
+@property (nonatomic, assign) CGFloat startYear;
+@property (nonatomic, assign) CGFloat endYear;
+@property (nonatomic, assign) BOOL boolOnlyCurrent;
 @property (nonatomic, assign) BOOL boolShowLunarCalendar;
-@property (nonatomic, assign) BOOL boolScrolView;
+@property (nonatomic, assign) BOOL boolContainsTerms;
+@property (nonatomic, assign) BOOL boolScrollView;
 @property (nonatomic, strong) YXCalendarDayModel *selectedDayModel;
 
 @end
 
 @implementation YXCalendarBaseView
 
-- (instancetype)initWithFrame:(CGRect)frame boolShowLunarCalendar:(BOOL)boolShowLunarCalendar boolScrollView:(BOOL)boolScrolView {
+- (instancetype)initWithFrame:(CGRect)frame vc:(UIViewController *)vc startYear:(NSInteger)startYear endYear:(NSInteger)endYear boolOnlyCurrent:(BOOL)boolOnlyCurrent boolShowLunarCalendar:(BOOL)boolShowLunarCalendar boolContainsTerms:(BOOL)boolContainsTerms boolScrollView:(BOOL)boolScrollView {
     self = [super initWithFrame:frame];
     
     if (self) {
+        _baseVC = vc;
+        _startYear = startYear == 0 ? 1900 : startYear;
+        _endYear = endYear == 0 ? [[YXCalendarMergeManager sharedManager] currentYear] : endYear;
+        _boolOnlyCurrent = boolOnlyCurrent;
         _boolShowLunarCalendar = boolShowLunarCalendar;
-        _boolScrolView = boolScrolView;
+        _boolContainsTerms = _boolShowLunarCalendar ? boolContainsTerms : _boolShowLunarCalendar;
+        _boolScrollView = boolScrollView;
         [self initView];
     }
     return self;
@@ -38,18 +51,14 @@
 #pragma mark - 获取日历数据
 - (void)getCalendarArr {
     
-    NSInteger currentYear = [NSDate yxGetDateYear:[NSDate date]];
-    [self updateMonthMethodByCurrentYear:currentYear boolInitArr:YES];
+    [self updateMonthMethodByBoolInitArr:YES];
 }
 
 #pragma mark - 获取数据并更新年份
-- (void)updateMonthMethodByCurrentYear:(NSInteger)currentYear boolInitArr:(BOOL)boolInitArr {
-    
-    NSInteger starYears = 2020;
-    NSInteger endYears = 2021;
+- (void)updateMonthMethodByBoolInitArr:(BOOL)boolInitArr {
     
     if (boolInitArr) {
-        _originalCalendarValueArr = [[YXCalendarMergeManager sharedManager] assemblyDateByStartYears:starYears endYears:endYears boolOnlyCurrent:NO boolContainsTerms:YES];
+        _originalCalendarValueArr = [[YXCalendarMergeManager sharedManager] assemblyDateByStartYears:_startYear endYears:_endYear boolOnlyCurrent:_boolOnlyCurrent boolContainsTerms:_boolContainsTerms];
         for (YXCalendarYearModel *yearModel in _originalCalendarValueArr) {
             [_calendarValueArr addObjectsFromArray:(NSMutableArray *)yearModel.monthArr];
         }
@@ -63,29 +72,36 @@
 }
 
 #pragma mark - 指定显示数据
-- (void)pointToMonthByMonth:(NSInteger)month year:(NSInteger)year {
+- (void)pointToMonthByMonth:(NSInteger)month year:(NSInteger)year day:(NSInteger)day {
     
+    _selectedDayModel = [[YXCalendarDayModel alloc] init];
+    _selectedDayModel.year = year;
+    _selectedDayModel.month = month;
+    _selectedDayModel.day = day;
+    _selectedDayModel.boolLunar = NO;
+    _selectedDayModel.solarDate = [NSString stringWithFormat:@"%@.%@.%@", @(_selectedDayModel.year), @(_selectedDayModel.month), @(_selectedDayModel.day)];
+
     YXCalendarMonthModel *model = _calendarValueArr.count == 0 ? nil : _calendarValueArr.count > 1 ? _calendarValueArr[1] : _calendarValueArr[0];
     
     NSString *currentMonthStr = model.month >= 10 ? [NSString stringWithFormat:@"%@", @(model.month)] : [NSString stringWithFormat:@"0%@", @(model.month)];
     
     NSString *monthStr = month >= 10 ? [NSString stringWithFormat:@"%@", @(month)] : [NSString stringWithFormat:@"0%@", @(month)];
     NSInteger yearBetween = year - model.year;
-    NSInteger monthBetween = month - model.month == 0 ? 0 : 1;
-    NSInteger between = yearBetween == 0 ? [[NSString stringWithFormat:@"%@", monthStr] integerValue] - [[NSString stringWithFormat:@"%@", currentMonthStr] integerValue] : yearBetween *12 + ([[NSString stringWithFormat:@"%@", monthStr] integerValue] - [[NSString stringWithFormat:@"%@", currentMonthStr] integerValue]) + monthBetween;
+    NSInteger between = yearBetween == 0 ? [[NSString stringWithFormat:@"%@", monthStr] integerValue] - [[NSString stringWithFormat:@"%@", currentMonthStr] integerValue] : yearBetween *12 + ([[NSString stringWithFormat:@"%@", monthStr] integerValue] - [[NSString stringWithFormat:@"%@", currentMonthStr] integerValue]);
     
     if (between != 0) {
         for (NSInteger i = 0; i < labs(between); i++) {
+            BOOL boolSet = labs(between) - 1 == i ? YES : NO;
             if (between > 0) {
-                [self updateLastValue];
+                [self monthChangeMethodByType:YXCalendarMonthTypeNext boolSetValue:boolSet boolBlock:boolSet];
             }
             else {
-                [self updateFirstValueByBoolFirst:NO];
+                [self monthChangeMethodByType:YXCalendarMonthTypeLast boolSetValue:boolSet boolBlock:boolSet];
             }
         }
-        
-        [self setImageFromImageNames];
-        [self.scrollView setContentOffset:CGPointMake(CGRectGetWidth(self.scrollView.frame), 0)];
+    }
+    else {
+        [self reloadCurrentValue];
     }
 }
 
@@ -111,7 +127,7 @@
 }
 
 #pragma mark - 月份切换
-- (void)monthChangeMethodByType:(YXCalendarMonthType)type {
+- (void)monthChangeMethodByType:(YXCalendarMonthType)type boolSetValue:(BOOL)boolSetValue boolBlock:(BOOL)boolBlock {
     
     if (type != YXCalendarMonthTypeCurrent) {
         if (type == YXCalendarMonthTypeLast) {
@@ -121,8 +137,17 @@
             [self updateLastValue];
         }
         
-        [self setImageFromImageNames];
-        [self.scrollView setContentOffset:CGPointMake(CGRectGetWidth(self.scrollView.frame), 0)];
+        if (boolSetValue) {
+            [self setImageFromImageNames];
+            [self.scrollView setContentOffset:CGPointMake(CGRectGetWidth(self.scrollView.frame), 0)];
+        }
+    }
+    else {
+        if (boolSetValue) [self reloadCurrentValue];
+    }
+    
+    if (self.yxCalendarBaseViewDayBlock && boolBlock) {
+        self.yxCalendarBaseViewDayBlock(_selectedDayModel);
     }
 }
 
@@ -211,9 +236,77 @@
                 make.left.and.right.equalTo(self);
                 make.height.mas_equalTo(viewHeight);
             }];
+            
+            NSInteger index = 0;
+            NSInteger i = 0;
+            for (YXCalendarDayModel *dayModel in calendarView.daysArr) {
+                if (dayModel.year == _selectedDayModel.year && dayModel.month == _selectedDayModel.month && dayModel.day == _selectedDayModel.day) {
+                    dayModel.boolSelected = YES;
+                    index = i;
+                }
+                else {
+                    dayModel.boolSelected = NO;
+                }
+                
+                i++;
+            }
+            [self getSelectedByIndex:index arr:calendarView.daysArr];
             self.weeksView.monthModel = calendarView.monthModel;
         }
     }
+}
+
+#pragma mark - 更新当前页数据
+- (void)reloadCurrentValue {
+    
+    for (YXCalendarView *calendarView in _calendarViewArr) {
+        if (calendarView.tag == 1) {
+            YXCalendarMonthModel *model = calendarView.monthModel;
+            NSMutableArray *arr = model.dayArr;
+            NSInteger index = 0;
+            NSInteger i = 0;
+            for (YXCalendarDayModel *dayModel in arr) {
+                if (dayModel.year == _selectedDayModel.year && dayModel.month == _selectedDayModel.month && dayModel.day == _selectedDayModel.day) {
+                    dayModel.boolSelected = YES;
+                    index = i;
+                }
+                else {
+                    dayModel.boolSelected = NO;
+                }
+                
+                i++;
+            }
+            calendarView.monthModel = model;
+            calendarView.daysArr = arr;
+            
+            [self getSelectedByIndex:index arr:calendarView.daysArr];
+        }
+    }
+}
+
+#pragma mark - 获取当前选中日所在行数据
+- (void)getSelectedByIndex:(NSInteger)index arr:(NSMutableArray *)arr {
+    
+    NSMutableArray *dayArr = [[NSMutableArray alloc] init];
+    if (index < 7) {
+        [dayArr addObjectsFromArray:[arr subarrayWithRange:NSMakeRange(0, 7)]];
+    }
+    else {
+        NSInteger currentBase = index /7;
+        [dayArr addObjectsFromArray:[arr subarrayWithRange:NSMakeRange(currentBase *7, 7)]];
+    }
+    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kCalendarSelectedNotification object:@{@"dayArr":dayArr}];
+}
+
+#pragma mark - 年月日选择弹窗
+- (void)presentDayAlertView {
+    
+    TYAlertController *alertController = [TYAlertController alertControllerWithAlertView:self.dateAlertView preferredStyle:TYAlertControllerStyleActionSheet];
+    alertController.backgoundTapDismissEnable = YES;
+    self.dateAlertView.alertController = alertController;
+    self.dateAlertView.model = _selectedDayModel;
+    [_baseVC presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - <UIScrollViewDelegate>
@@ -252,7 +345,7 @@
         calendarView.yxCalendarDayViewSelectedBlock = ^(YXCalendarDayModel * _Nonnull dayModel) {
             
             weakSelf.selectedDayModel = dayModel;
-            [weakSelf monthChangeMethodByType:dayModel.monthType];
+            [weakSelf monthChangeMethodByType:dayModel.monthType boolSetValue:YES boolBlock:YES];
         };
     }
     
@@ -260,6 +353,8 @@
     _selectedDayModel.year = [NSDate yxGetDateYear:[NSDate date]];
     _selectedDayModel.month = [NSDate yxGetDateMonth:[NSDate date]];
     _selectedDayModel.day = [NSDate yxGetDateDay:[NSDate date]];
+    _selectedDayModel.boolLunar = NO;
+    _selectedDayModel.solarDate = [NSString stringWithFormat:@"%@.%@.%@", @(_selectedDayModel.year), @(_selectedDayModel.month), @(_selectedDayModel.day)];
     
     [self getCalendarArr];
 }
@@ -275,7 +370,12 @@
         __weak typeof(self) weakSelf = self;
         _weeksView.yxWeeksViewMonthBlock = ^(YXCalendarMonthType type) {
             
-            [weakSelf monthChangeMethodByType:type];
+            if (type == YXCalendarMonthTypeCurrent) {
+                [weakSelf presentDayAlertView];
+            }
+            else {
+                [weakSelf monthChangeMethodByType:type boolSetValue:YES boolBlock:YES];
+            }
         };
         
         [_weeksView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -299,7 +399,7 @@
         _scrollView.pagingEnabled = YES;
         _scrollView.bounces = YES;
         _scrollView.delegate = self;
-        _scrollView.scrollEnabled = _boolScrolView;
+        _scrollView.scrollEnabled = _boolScrollView;
         [self addSubview:_scrollView];
         
         [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -328,6 +428,23 @@
         }];
     }
     return _baseView;
+}
+- (YXDateAlertView *)dateAlertView {
+    
+    if (!_dateAlertView) {
+        _dateAlertView = [[YXDateAlertView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 248) startYear:_startYear endYear:_endYear boolChange:YES];
+        _dateAlertView.backgroundColor = [UIColor whiteColor];
+        
+        __weak typeof(self) weakSelf = self;
+        _dateAlertView.yxDateAlertViewSureBlock = ^(YXCalendarDayModel * _Nonnull model) {
+
+            NSArray *solarArr = [model.solarDate componentsSeparatedByString:@"."];
+            if (solarArr.count != 0) {
+                [weakSelf pointToMonthByMonth:[solarArr[1] integerValue] year:[solarArr[0] integerValue] day:[solarArr[2] integerValue]];
+            }
+        };
+    }
+    return _dateAlertView;
 }
 
 @end

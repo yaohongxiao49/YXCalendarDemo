@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define kYXCalendarViewBgColor [[UIColor blackColor] colorWithAlphaComponent:0.5]
+#define kYXCalendarViewBgColor [[UIColor blackColor] colorWithAlphaComponent:0.3]
 
 typedef void(^YXCalendarDayViewSelectedBlock)(YXCalendarDayModel *dayModel);
 
@@ -19,7 +19,9 @@ typedef void(^YXCalendarDayViewSelectedBlock)(YXCalendarDayModel *dayModel);
 @property (nonatomic, weak) YXCalendarMonthModel *monthModel;
 @property (nonatomic, copy) YXCalendarDayViewSelectedBlock yxCalendarDayViewSelectedBlock;
 
+/** 获取即时高度 */
 - (CGFloat)getViewHightMethod;
+/** 初始化视图 */
 - (instancetype)initWithFrame:(CGRect)frame boolShowLunarCalendar:(BOOL)boolShowLunarCalendar;
 
 @end

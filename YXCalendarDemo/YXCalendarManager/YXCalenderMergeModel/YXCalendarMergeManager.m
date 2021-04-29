@@ -29,11 +29,14 @@
 }
 
 #pragma mark - 显示日历视图
-+ (void)yxShowCalendarViewByVC:(UIViewController *)vc baseView:(UIView *)baseView frame:(CGRect)frame boolShowLunarCalendar:(BOOL)boolShowLunarCalendar boolScrollView:(BOOL)boolScrollView {
++ (void)yxShowCalendarViewByVC:(UIViewController *)vc baseView:(UIView *)baseView frame:(CGRect)frame startYear:(NSInteger)startYear endYear:(NSInteger)endYear boolOnlyCurrent:(BOOL)boolOnlyCurrent boolShowLunarCalendar:(BOOL)boolShowLunarCalendar boolContainsTerms:(BOOL)boolContainsTerms boolScrollView:(BOOL)boolScrollView {
     
-    YXCalendarBaseView *calendarView = [[YXCalendarBaseView alloc] initWithFrame:frame boolShowLunarCalendar:boolShowLunarCalendar boolScrollView:boolScrollView];
+    YXCalendarBaseView *calendarView = [[YXCalendarBaseView alloc] initWithFrame:frame vc:vc startYear:startYear endYear:endYear boolOnlyCurrent:boolOnlyCurrent boolShowLunarCalendar:boolShowLunarCalendar boolContainsTerms:boolContainsTerms boolScrollView:boolScrollView];
     [baseView addSubview:calendarView];
-    [calendarView pointToMonthByMonth:4 year:2021];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [calendarView pointToMonthByMonth:[[YXCalendarMergeManager sharedManager] currentMonth] year:[[YXCalendarMergeManager sharedManager] currentYear] day:[[YXCalendarMergeManager sharedManager] currentDay]];
+    });
 }
 
 #pragma mark - 获取日历容器数据
@@ -188,15 +191,15 @@
 #pragma mark - getting
 - (NSInteger)currentDay {
     
-    return [NSDate yxGetDateDay:self.currentDate];
+    return [NSDate yxGetDateDay:[NSDate date]];
 }
 - (NSInteger)currentMonth {
     
-    return [NSDate yxGetDateMonth:self.currentDate];
+    return [NSDate yxGetDateMonth:[NSDate date]];
 }
 - (NSInteger)currentYear {
     
-    return [NSDate yxGetDateYear:self.currentDate];
+    return [NSDate yxGetDateYear:[NSDate date]];
 }
 - (NSDate *)currentDate {
     
