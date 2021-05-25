@@ -344,6 +344,7 @@
         __weak typeof(self) weakSelf = self;
         calendarView.yxCalendarDayViewSelectedBlock = ^(YXCalendarDayModel * _Nonnull dayModel) {
             
+            NSLog(@"农历 == %@， 公历 == %@", dayModel.lunarDate, dayModel.solarDate);
             weakSelf.selectedDayModel = dayModel;
             [weakSelf monthChangeMethodByType:dayModel.monthType boolSetValue:YES boolBlock:YES];
         };

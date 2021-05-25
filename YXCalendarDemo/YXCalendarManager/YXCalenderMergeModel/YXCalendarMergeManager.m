@@ -68,6 +68,7 @@
             dayModel.monthType = YXCalendarMonthTypeLast;
             dayModel.boolCurrentDay = NO;
             dayModel.boolSelected = NO;
+            dayModel.monthTotal = firstModel.totalDays;
             YXCalendarDayModel *endDayModel = [[YXCalendarMergeManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];
             [daysArray addObject:endDayModel];
         }
@@ -80,6 +81,7 @@
             dayModel.monthType = YXCalendarMonthTypeCurrent;
             dayModel.boolCurrentDay = [self yxJudgetCurrentDayNowMonth:dayModel];
             dayModel.boolSelected = dayModel.boolCurrentDay;
+            dayModel.monthTotal = currentModel.totalDays;
             YXCalendarDayModel *endDayModel = [[YXCalendarMergeManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];
             [daysArray addObject:endDayModel];
         }
@@ -92,6 +94,7 @@
             dayModel.monthType = YXCalendarMonthTypeNext;
             dayModel.boolCurrentDay = NO;
             dayModel.boolSelected = NO;
+            dayModel.monthTotal = lastModel.totalDays;
             YXCalendarDayModel *endDayModel = [[YXCalendarMergeManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];
             [daysArray addObject:endDayModel];
         }
@@ -105,6 +108,7 @@
             dayModel.monthType = YXCalendarMonthTypeCurrent;
             dayModel.boolCurrentDay = [self yxJudgetCurrentDayNowMonth:dayModel];
             dayModel.boolSelected = dayModel.boolCurrentDay;
+            dayModel.monthTotal = currentModel.totalDays;
             YXCalendarDayModel *endDayModel = [[YXCalendarMergeManager sharedManager] assemblyLunarCalendarDayModelByDayModel:dayModel boolContainsTerms:boolContainsTerms];
             [daysArray addObject:endDayModel];
         }

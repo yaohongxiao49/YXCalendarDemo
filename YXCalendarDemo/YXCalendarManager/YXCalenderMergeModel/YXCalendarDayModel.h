@@ -32,6 +32,14 @@ typedef NS_ENUM(NSUInteger, YXCalendarMonthType) {
 /** 假日名称 */
 @property (nonatomic, copy) NSString *holidayNamed;
 
+/** 是否是闰年 */
+@property (nonatomic, assign) BOOL boolLeapYear;
+/** 是否是闰月 */
+//@property (nonatomic, assign) BOOL boolLeapMonth;
+/** 月总天数 */
+@property (nonatomic, assign) NSInteger monthTotal;
+
+#pragma mark - 农历显示
 /** 是否是农历 */
 @property (nonatomic, assign) BOOL boolLunar;
 /** 结果显示日期 */

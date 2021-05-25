@@ -34,4 +34,10 @@
     return _lunarDate.length != 0 ? _lunarDate : [NSString stringWithFormat:@"%@(%@) %@ %@", @(yearModel.year), [lunarDic objectForKey:kYXCalendarMergeManagerLunarYear], [lunarDic objectForKey:kYXCalendarMergeManagerLunarMonth], [lunarDic objectForKey:kYXCalendarMergeManagerLunarDay]];
 }
 
+#pragma mark - 是否是闰年
+- (BOOL)boolLeapYear {
+    
+    return ((self.year %4 == 0 && self.year %100 != 0) || self.year %400 == 0) ? YES : NO;
+}
+
 @end
