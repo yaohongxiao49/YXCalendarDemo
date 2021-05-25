@@ -63,7 +63,7 @@
         
         i++;
     }
-    _yearRow = yearRow;
+    _yearRow = yearRow > _yearArr.count - 1 ? _yearArr.count - 1 : yearRow;
     [self.pickerView selectRow:_yearRow inComponent:0 animated:YES];
     
     NSInteger monthRow = 0;
@@ -83,6 +83,7 @@
         j++;
     }
     [self getMonthArrByRow:yearRow];
+    monthRow = monthRow > _monthArr.count - 1 ? _monthArr.count - 1 : monthRow;
     [self.pickerView selectRow:monthRow inComponent:1 animated:YES];
     
     NSInteger dayRow = 0;
@@ -101,6 +102,7 @@
         k++;
     }
     [self getDayArrByRow:monthRow];
+    dayRow = dayRow > _dayArr.count - 1 ? _dayArr.count - 1 : dayRow;
     _dayRow = dayRow;
     [self.pickerView selectRow:_dayRow inComponent:2 animated:YES];
     
@@ -206,6 +208,7 @@
     else {
         dateFromatter.dateFormat = @"yyyyM";
     }
+    if (self.model.boolLunar) dateFromatter.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierChinese];
     
     NSDate *date = [dateFromatter dateFromString:dateStr];
     NSCalendar *calendar = [self getCurrentCalendar];
